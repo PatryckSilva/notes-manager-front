@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Inbox } from "lucide-react";
 
+import LogoSVG from "./svgs/logo";
+
 export function AppSidebar() {
   const items = [
     {
@@ -22,7 +24,12 @@ export function AppSidebar() {
   ];
   return (
     <Sidebar>
-      <SidebarHeader></SidebarHeader>
+      <SidebarHeader className={`flex-row items-center gap-2.5`}>
+        <LogoSVG className={`size-16`} />
+        <span className={`flex flex-col text-2xl font-bold text-primary `}>
+          Notes <span className={`-mt-1.5`}>Manager</span>
+        </span>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
@@ -30,7 +37,7 @@ export function AppSidebar() {
               <SidebarMenuButton asChild>
                 <span>
                   <Inbox />
-                  <span>Todas as Notas</span>
+                  <span className="font-medium">Todas as Notas</span>
                 </span>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -41,7 +48,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Pastas</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {items.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>

@@ -1,13 +1,8 @@
 "use server";
 
+import { TCreateUserBody, TLoginUserBody } from "@/@types/actions/user";
 import { apiEndpoints } from "@/config/constants";
 import { cookies } from "next/headers";
-
-type TCreateUserBody = {
-  email: string;
-  password: string;
-  name: string;
-};
 
 export const registerUser = async (data: TCreateUserBody) => {
   const body = data;
@@ -20,21 +15,23 @@ export const registerUser = async (data: TCreateUserBody) => {
     },
   });
 
-  return response;
+  const responseBody = await response.json();
+  return { status: response.status, body: responseBody, ok: response.ok };
 };
 
-export const login = async (data: Omit<TCreateUserBody, "name">) => {
-  const body = data;
+export const login = async ({ data }: { data: TLoginUserBody }) => {
+  const body = JSON.stringify(data);
 
   const response = await fetch(apiEndpoints.user.login, {
-    body: JSON.stringify(body),
+    body: body,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
   });
 
-  return response;
+  const responseBody = await response.json();
+  return { status: response.status, body: responseBody, ok: response.ok };
 };
 
 export const getUserByEmail = async () => {
@@ -47,5 +44,7 @@ export const getUserByEmail = async () => {
 
   const response = await fetch(`${apiEndpoints.user.userByEmail}`, { headers });
 
-  return response;
+  const responseBody = await response.json();
+
+  return { status: response.status, body: responseBody, ok: response.ok };
 };
