@@ -2,6 +2,7 @@
 
 import { TCreateUserBody, TLoginUserBody } from "@/@types/actions/user";
 import { apiEndpoints } from "@/config/constants";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export const registerUser = async (data: TCreateUserBody) => {
@@ -16,6 +17,8 @@ export const registerUser = async (data: TCreateUserBody) => {
   });
 
   const responseBody = await response.json();
+
+  revalidatePath("/register");
   return { status: response.status, body: responseBody, ok: response.ok };
 };
 
@@ -28,6 +31,7 @@ export const login = async ({ data }: { data: TLoginUserBody }) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
 
   const responseBody = await response.json();

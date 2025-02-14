@@ -9,9 +9,7 @@ export default function Login() {
         <aside className="flex size-full flex-col items-center justify-between border border-border bg-white p-10 lg:w-1/2 ">
           <article className={`flex items-center gap-5`}>
             <LogoSVG className={`size-16`} />
-            <span
-              className={`flex flex-col text-2xl font-bold text-secondary-foreground `}
-            >
+            <span className={`flex flex-col text-2xl font-bold text-secondary-foreground `}>
               Notes <span className={`-mt-1.5`}>Manager</span>
             </span>
           </article>
@@ -37,7 +35,7 @@ export default function Login() {
           </span>
         </aside>
 
-        <aside className="login_gradient relative hidden size-full flex-col items-center justify-center rounded-r-sm border border-primary lg:flex lg:w-1/2">
+        <aside className="login_gradient relative flex size-full flex-col items-center justify-center rounded-r-sm border border-primary lg:w-1/2">
           <LogoSVG className={`size-80`} />
         </aside>
       </section>
