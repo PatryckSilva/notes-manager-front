@@ -11,10 +11,5 @@ export default function PublicLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <div>
-      public
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }
