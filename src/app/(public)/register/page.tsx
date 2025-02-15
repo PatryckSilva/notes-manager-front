@@ -1,8 +1,11 @@
 import { RegisterForm } from "@/components/layouts/register/registerForm";
 import LogoSVG from "@/components/svgs/logo";
 import Link from "next/link";
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export default function Register() {
+export default async function Register() {
+  await delay(10000);
+
   return (
     <main className={`flex h-dvh w-screen items-center justify-center`}>
       <section className={`flex h-5/6 w-10/12 rounded-sm bg-primary`}>

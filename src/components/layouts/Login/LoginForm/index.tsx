@@ -45,7 +45,7 @@ export function LoginForm() {
       return toast({ title: response.body.message, variant: "destructive" });
     }
 
-    router.push("/");
+    router.push("/dashboard");
     return toast({ title: "Login efetuado com sucesso", variant: "success" });
   }
 
@@ -57,7 +57,9 @@ export function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold text-muted-foreground">Email:</FormLabel>
+              <FormLabel className="font-semibold text-muted-foreground">
+                Email:
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Email" {...field} />
               </FormControl>
@@ -71,7 +73,9 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold text-muted-foreground">Senha:</FormLabel>
+              <FormLabel className="font-semibold text-muted-foreground">
+                Senha:
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Senha" {...field} />
               </FormControl>

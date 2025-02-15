@@ -1,3 +1,4 @@
+import { getAllUserNotes } from "@/actions/Notes";
 import {
   Sidebar,
   SidebarContent,
@@ -10,47 +11,46 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Inbox } from "lucide-react";
+import { InboxIcon } from "lucide-react";
 
-import LogoSVG from "./svgs/logo";
+import LogoSVG from "../svgs/logo";
+import { SidebarAllNotesCollapsible } from "./sidebar-all-notes-collapsible";
 
-export function AppSidebar() {
+export async function AppSidebar() {
+  const allUserNotes = await getAllUserNotes();
+
   const items = [
     {
       title: "Inbox",
       url: "#",
-      icon: Inbox,
+      icon: InboxIcon,
     },
   ];
+
+  console.log("AppSidebar");
+
   return (
     <Sidebar>
-      <SidebarHeader className={`flex-row items-center gap-2.5`}>
-        <LogoSVG className={`size-16`} />
+      <SidebarHeader className={`flex-row items-center gap-2.5 p-5`}>
+        <LogoSVG className={`size-14`} />
         <span className={`flex flex-col text-2xl font-bold text-primary `}>
           Notes <span className={`-mt-1.5`}>Manager</span>
         </span>
       </SidebarHeader>
+
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <span>
-                  <Inbox />
-                  <span className="font-medium">Todas as Notas</span>
-                </span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
+        <SidebarAllNotesCollapsible />
 
         <SidebarGroup>
           <SidebarGroupLabel>Pastas</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map(item => (
+              {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    className={`cursor-pointer hover:bg-muted`}
+                  >
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>

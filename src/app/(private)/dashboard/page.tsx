@@ -1,9 +1,12 @@
 "use client";
-import { getUserByEmail } from "@/actions/User";
+import { createNote } from "@/actions/Notes";
 import Image from "next/image";
 
 export default function Home() {
-  const teste = {};
+  const notes = {
+    title: "Criando Segunda note teste",
+    content: "Criando segunda note teste descrição",
+  };
   return (
     <div className="grid min-h-screen grid-rows-[20px_1fr_20px] place-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
       <main className="row-start-2 flex flex-col items-center gap-8 sm:items-start">
@@ -42,7 +45,7 @@ export default function Home() {
             />
             Deploy now
           </a>
-          <button onClick={() => getUserByEmail(teste)}>test</button>
+          <button onClick={() => createNote(notes)}>test</button>
         </div>
       </main>
       <footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
