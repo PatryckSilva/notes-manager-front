@@ -6,7 +6,7 @@ export default function Register() {
   return (
     <main className={`flex h-dvh w-screen items-center justify-center`}>
       <section className={`flex h-5/6 w-10/12 rounded-sm bg-primary`}>
-        <aside className="login_gradient relative flex size-full flex-col items-center justify-center rounded-l-sm border border-primary lg:w-1/2">
+        <aside className="login_gradient hidden size-full flex-col items-center justify-center rounded-l-sm border border-primary lg:flex lg:w-1/2">
           <LogoSVG className={`size-80`} />
         </aside>
 
