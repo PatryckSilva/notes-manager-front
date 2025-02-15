@@ -19,6 +19,8 @@ import { SidebarAllNotesCollapsible } from "./sidebar-all-notes-collapsible";
 export async function AppSidebar() {
   const allUserNotes = await getAllUserNotes();
 
+  const allNotes = Array.isArray(allUserNotes.body) ? allUserNotes.body : [];
+
   const items = [
     {
       title: "Inbox",
@@ -26,8 +28,6 @@ export async function AppSidebar() {
       icon: InboxIcon,
     },
   ];
-
-  console.log("AppSidebar");
 
   return (
     <Sidebar>
@@ -39,18 +39,15 @@ export async function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarAllNotesCollapsible />
+        <SidebarAllNotesCollapsible allNotes={allNotes} />
 
         <SidebarGroup>
           <SidebarGroupLabel>Pastas</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {items.map(item => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    className={`cursor-pointer hover:bg-muted`}
-                  >
+                  <SidebarMenuButton asChild className={`cursor-pointer hover:bg-muted`}>
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>

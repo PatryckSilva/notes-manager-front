@@ -1,14 +1,10 @@
 "use server";
 
+import { INotes, TCreateNoteBody } from "@/@types/actions/notes";
+import { HttpResponse } from "@/@types/httpTypes";
 import { apiEndpoints } from "@/config/constants";
 import { httpClient } from "@/infra/http-client";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-
-export interface TCreateNoteBody {
-  title: string;
-  content: string;
-}
 
 export async function createNote(data: TCreateNoteBody) {
   const authCookie = (await cookies()).get("auth_token");
@@ -25,10 +21,10 @@ export async function createNote(data: TCreateNoteBody) {
     headers,
   });
 
-  console.log(`response`, response.body);
+  return response;
 }
 
-export async function getAllUserNotes() {
+export async function getAllUserNotes(): Promise<HttpResponse<{ message: string } | INotes[]>> {
   const authCookie = (await cookies()).get("auth_token");
 
   const headers = {
@@ -42,5 +38,6 @@ export async function getAllUserNotes() {
     headers,
   });
 
-  console.log(`response`, response.body);
+  console.log(`response`, response);
+  return response;
 }

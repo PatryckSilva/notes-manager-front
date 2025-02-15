@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unused-vars */
 export enum HttpStatusCode {
   ok = 200,
   created = 201,
@@ -25,4 +27,5 @@ export type HttpRequest = {
 export type HttpResponse<T = any> = {
   statusCode: HttpStatusCode;
   body?: T;
+  ok: boolean;
 };
