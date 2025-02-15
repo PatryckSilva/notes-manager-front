@@ -35,7 +35,7 @@ export default function Login() {
           </span>
         </aside>
 
-        <aside className="login_gradient relative flex size-full flex-col items-center justify-center rounded-r-sm border border-primary lg:w-1/2">
+        <aside className="login_gradient  hidden  size-full flex-col items-center justify-center rounded-r-sm border border-primary lg:flex lg:w-1/2">
           <LogoSVG className={`size-80`} />
         </aside>
       </section>

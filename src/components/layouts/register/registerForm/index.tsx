@@ -14,12 +14,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { formRegisterSchema, TFormRegisterSchema } from "./schemas";
 
 export function RegisterForm() {
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<TFormRegisterSchema>({
     resolver: zodResolver(formRegisterSchema),
@@ -44,18 +46,21 @@ export function RegisterForm() {
       return toast({ title: response.body.message, variant: "destructive" });
     }
 
+    router.push("/login");
     return toast({ title: "Conta criada com sucesso", variant: "success" });
   }
 
   return (
     <Form {...form}>
       <form className="w-full space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-      <FormField
+        <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold text-muted-foreground">Nome:</FormLabel>
+              <FormLabel className="font-semibold text-muted-foreground">
+                Nome:
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Nome" {...field} />
               </FormControl>
@@ -69,7 +74,9 @@ export function RegisterForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold text-muted-foreground">Email:</FormLabel>
+              <FormLabel className="font-semibold text-muted-foreground">
+                Email:
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Email" {...field} />
               </FormControl>
@@ -83,7 +90,9 @@ export function RegisterForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold text-muted-foreground">Senha:</FormLabel>
+              <FormLabel className="font-semibold text-muted-foreground">
+                Senha:
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Senha" {...field} />
               </FormControl>
@@ -93,7 +102,7 @@ export function RegisterForm() {
         />
 
         <Button className={`w-full`} type="submit">
-          Log in
+          Criar conta
         </Button>
       </form>
     </Form>
