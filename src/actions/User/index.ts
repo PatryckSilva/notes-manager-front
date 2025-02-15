@@ -21,6 +21,8 @@ export const registerUser = async (data: TCreateUserBody) => {
 };
 
 export const login = async ({ data }: { data: TLoginUserBody }) => {
+  const userCookies = await cookies();
+
   const response = await httpClient.request({
     method: "post",
     url: apiEndpoints.user.login,
@@ -28,6 +30,14 @@ export const login = async ({ data }: { data: TLoginUserBody }) => {
     headers: {
       "Content-Type": "application/json",
     },
+  });
+
+  userCookies.set("auth_token", response.body.token, {
+    httpOnly: true,
+    maxAge: 3600000,
+    sameSite: "none",
+    secure: true,
+    expires: new Date(Date.now() + 3600000),
   });
 
   return {

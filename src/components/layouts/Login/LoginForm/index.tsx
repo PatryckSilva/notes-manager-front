@@ -14,12 +14,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { formLoginSchema, TFormLoginSchema } from "./schemas";
 
 export function LoginForm() {
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<TFormLoginSchema>({
     resolver: zodResolver(formLoginSchema),
@@ -43,6 +45,7 @@ export function LoginForm() {
       return toast({ title: response.body.message, variant: "destructive" });
     }
 
+    router.push("/");
     return toast({ title: "Login efetuado com sucesso", variant: "success" });
   }
 
@@ -54,9 +57,7 @@ export function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold text-muted-foreground">
-                Email:
-              </FormLabel>
+              <FormLabel className="font-semibold text-muted-foreground">Email:</FormLabel>
               <FormControl>
                 <Input placeholder="Email" {...field} />
               </FormControl>
@@ -70,9 +71,7 @@ export function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold text-muted-foreground">
-                Senha:
-              </FormLabel>
+              <FormLabel className="font-semibold text-muted-foreground">Senha:</FormLabel>
               <FormControl>
                 <Input placeholder="Senha" {...field} />
               </FormControl>
