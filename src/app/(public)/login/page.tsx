@@ -6,7 +6,7 @@ export default function Login() {
   return (
     <main className={`flex h-dvh w-screen items-center justify-center`}>
       <section className={`flex h-5/6 w-10/12 rounded-sm bg-primary`}>
-        <aside className="flex size-full flex-col items-center justify-between border border-border bg-white p-10 lg:w-1/2 ">
+        <aside className="flex size-full flex-col items-center justify-between rounded-l-sm border border-border bg-white p-10 lg:w-1/2 ">
           <article className={`flex items-center gap-5`}>
             <LogoSVG className={`size-16`} />
             <span className={`flex flex-col text-2xl font-bold text-secondary-foreground `}>

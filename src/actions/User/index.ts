@@ -2,43 +2,42 @@
 
 import { TCreateUserBody, TLoginUserBody } from "@/@types/actions/user";
 import { apiEndpoints } from "@/config/constants";
+import { httpClient } from "@/infra/http-client";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export const registerUser = async (data: TCreateUserBody) => {
-  const body = data;
-
-  const response = await fetch(apiEndpoints.user.register, {
-    body: JSON.stringify(body),
-    method: "POST",
+  const response = await httpClient.request({
+    method: "post",
+    url: apiEndpoints.user.register,
+    body: data,
     headers: {
       "Content-Type": "application/json",
     },
   });
 
-  const responseBody = await response.json();
-
   revalidatePath("/register");
-  return { status: response.status, body: responseBody, ok: response.ok };
+  return { status: response.statusCode, body: response.body, ok: response.ok };
 };
 
 export const login = async ({ data }: { data: TLoginUserBody }) => {
-  const body = JSON.stringify(data);
-
-  const response = await fetch(apiEndpoints.user.login, {
-    body: body,
-    method: "POST",
+  const response = await httpClient.request({
+    method: "post",
+    url: apiEndpoints.user.login,
+    body: data,
     headers: {
       "Content-Type": "application/json",
     },
-    credentials: "include",
   });
 
-  const responseBody = await response.json();
-  return { status: response.status, body: responseBody, ok: response.ok };
+  return {
+    status: response.statusCode,
+    body: response.body,
+    ok: response.ok,
+  };
 };
 
-export const getUserByEmail = async () => {
+export const getUserByEmail = async (data: any) => {
   const authCookie = (await cookies()).get("auth_token");
 
   const headers = {
@@ -46,9 +45,11 @@ export const getUserByEmail = async () => {
     cookie: authCookie?.value || "",
   };
 
-  const response = await fetch(`${apiEndpoints.user.userByEmail}`, { headers });
+  const response = await httpClient.request({
+    method: "get",
+    url: apiEndpoints.user.userByEmail,
+    headers,
+  });
 
-  const responseBody = await response.json();
-
-  return { status: response.status, body: responseBody, ok: response.ok };
+  return { status: response.statusCode, body: response.body, ok: response.ok };
 };
