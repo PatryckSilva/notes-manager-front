@@ -21,7 +21,12 @@ export class HttpClientAdapter implements HttpClient {
       };
     } catch (error) {
       const _error = error as AxiosError<{ message: string }>;
-      throw new Error(_error.response?.data.message);
+      console.log(`error==========`, error);
+      return {
+        statusCode: _error.response?.status || 500,
+        body: _error.response?.data || { message: "Internal Server Error" },
+        ok: false,
+      };
     }
   }
 }
