@@ -3,7 +3,7 @@ import { logout } from "@/actions/User";
 import { truncateText } from "@/utils/truncateText";
 import { memo } from "react";
 
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import {
   Dialog,
   DialogClose,
@@ -12,15 +12,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Label } from "../ui/label";
-import { SidebarFooter } from "../ui/sidebar";
+} from "../../ui/dialog";
+import { Label } from "../../ui/label";
+import { SidebarFooter } from "../../ui/sidebar";
 
-const ProfileModal = ({
-  userInfos,
-}: {
-  userInfos: { name: string; email: string } | string;
-}) => {
+const ProfileModal = ({ userInfos }: { userInfos: { name: string; email: string } | string }) => {
   if (typeof userInfos === "string") {
     return null;
   }
@@ -32,9 +28,7 @@ const ProfileModal = ({
           className={`cursor-pointer flex-row items-center rounded-t-xl border-t border-border py-3.5`}
         >
           <figure>
-            <div
-              className={`size-10 shrink-0 rounded-full bg-muted-foreground`}
-            />
+            <div className={`size-10 shrink-0 rounded-full bg-muted-foreground`} />
           </figure>
           <div className={`flex max-w-48 flex-col items-start gap-1 truncate`}>
             <span className={`text-base font-bold text-primary`}>
@@ -67,11 +61,7 @@ const ProfileModal = ({
             </Button>
           </DialogClose>
 
-          <Button
-            onClick={() => logout()}
-            type="submit"
-            variant={"destructive"}
-          >
+          <Button onClick={() => logout()} type="submit" variant={"destructive"}>
             Logout
           </Button>
         </DialogFooter>

@@ -15,7 +15,7 @@ import { ChevronDown, Folder, FolderPlus } from "lucide-react";
 import { cookies } from "next/headers";
 
 import LogoSVG from "../svgs/logo";
-import ProfileModal from "./profile-modal";
+import ProfileModal from "./profile/profile-modal";
 import { SidebarAllNotesCollapsible } from "./sidebar-all-notes-collapsible";
 
 export async function AppSidebar() {
@@ -37,9 +37,11 @@ export async function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarAllNotesCollapsible allNotes={allNotes} />
-
         <SidebarGroup>
+          <SidebarAllNotesCollapsible allNotes={allNotes} />
+        </SidebarGroup>
+
+        <SidebarGroup className="border-t border-border">
           <SidebarGroupLabel>
             <span className={`flex w-full items-center justify-between gap-1.5  `}>
               <span className="flex items-center gap-1.5">
@@ -50,6 +52,7 @@ export async function AppSidebar() {
               </span>
             </span>
           </SidebarGroupLabel>
+
           <SidebarGroupContent>
             <SidebarMenu>
               {allFolders?.map(item => (
@@ -62,7 +65,7 @@ export async function AppSidebar() {
                       <Folder />
                       <span className={`font-medium`}>{item.name}</span>
                     </span>
-                  </SidebarMenuButton>{" "}
+                  </SidebarMenuButton>
                   <ChevronDown className={`ml-auto transition-transform `} />
                 </SidebarMenuItem>
               ))}

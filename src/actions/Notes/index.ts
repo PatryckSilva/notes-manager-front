@@ -1,6 +1,6 @@
 "use server";
 
-import { INotes, TCreateNoteBody } from "@/@types/actions/notes";
+import { INote, TCreateNoteBody } from "@/@types/actions/notes";
 import { HttpResponse } from "@/@types/httpTypes";
 import { apiEndpoints } from "@/config/constants";
 import { httpClient } from "@/infra/http-client";
@@ -24,7 +24,9 @@ export async function createNote(data: TCreateNoteBody) {
   return response;
 }
 
-export async function getAllUserNotes(): Promise<HttpResponse<{ message: string } | INotes[]>> {
+export async function getAllUserNotes(): Promise<
+  HttpResponse<{ message: string } | INote[]>
+> {
   const authCookie = (await cookies()).get("auth_token");
 
   const headers = {
@@ -35,6 +37,25 @@ export async function getAllUserNotes(): Promise<HttpResponse<{ message: string 
   const response = await httpClient.request({
     method: "get",
     url: apiEndpoints.notes.findNotesByUser,
+    headers,
+  });
+
+  return response;
+}
+
+export async function getNoteById(id: string): Promise<HttpResponse<INote>> {
+  const authCookie = (await cookies()).get("auth_token");
+
+  const headers = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    cookie: authCookie?.value || "",
+  };
+
+  const url = `${apiEndpoints.notes.findNoteById}/${id}`;
+
+  const response = await httpClient.request({
+    method: "get",
+    url,
     headers,
   });
 

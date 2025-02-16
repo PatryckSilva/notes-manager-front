@@ -1,6 +1,6 @@
 import { IUser } from "./user";
 
-export interface INotes {
+export interface INote {
   id: string;
   title: string;
   content: string;

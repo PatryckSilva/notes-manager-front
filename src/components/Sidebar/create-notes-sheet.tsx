@@ -4,25 +4,13 @@ import { createNote } from "@/actions/Notes";
 import { Button } from "@/components/ui/button";
 import { SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useToast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { TFormCreateNoteSchema, useCreateNote } from "@/hooks/useCreateNote";
 import { useRouter } from "next/navigation";
 import React, { Dispatch, SetStateAction } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-const formCreateNoteSchema = z.object({
-  title: z
-    .string({ message: "O título da nota é obrigatório!" })
-    .min(1, "O título da nota é obrigatório!"),
-  content: z
-    .string({ message: "O conteúdo da nota é obrigatório!" })
-    .min(1, "O conteúdo da nota é obrigatório!"),
-});
-
-type TFormCreateNoteSchema = z.infer<typeof formCreateNoteSchema>;
 
 export const CreateNoteSheet = ({
   setSheetIsOpen,
@@ -31,13 +19,7 @@ export const CreateNoteSheet = ({
 }) => {
   const router = useRouter();
   const { toast } = useToast();
-  const form = useForm<TFormCreateNoteSchema>({
-    resolver: zodResolver(formCreateNoteSchema),
-    defaultValues: {
-      content: "",
-      title: "",
-    },
-  });
+  const { form } = useCreateNote();
 
   async function onSubmit(values: TFormCreateNoteSchema) {
     const { content, title } = values;
