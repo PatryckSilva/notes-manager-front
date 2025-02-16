@@ -13,13 +13,12 @@ const formCreateNoteSchema = z.object({
 
 export type TFormCreateNoteSchema = z.infer<typeof formCreateNoteSchema>;
 
-export const useCreateNote = () => {
+export const useCreateNote = ({
+  defaultValues,
+}: { defaultValues?: TFormCreateNoteSchema } = {}) => {
   const form = useForm<TFormCreateNoteSchema>({
     resolver: zodResolver(formCreateNoteSchema),
-    defaultValues: {
-      content: "",
-      title: "",
-    },
+    defaultValues: defaultValues,
   });
 
   return { form };

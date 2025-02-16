@@ -11,14 +11,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { useCreateNote } from "@/hooks/useCreateNote";
-import { useRouter } from "next/navigation";
 
 export const NotePageFields = ({ noteById }: { noteById?: INote }) => {
-  const router = useRouter();
-  const { toast } = useToast();
-  const { form } = useCreateNote();
+  const { form } = useCreateNote({
+    defaultValues: {
+      title: noteById?.title ?? "",
+      content: noteById?.content ?? "",
+    },
+  });
 
   return (
     <div className="mt-5 flex flex-col">
@@ -49,11 +50,7 @@ export const NotePageFields = ({ noteById }: { noteById?: INote }) => {
                   Conteúdo da nota:
                 </FormLabel>
                 <FormControl>
-                  <Textarea
-                    className={`h-40 italic`}
-                    placeholder="Escreva aqui..."
-                    {...field}
-                  />
+                  <Textarea className={`h-40 italic`} placeholder="Escreva aqui..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -9,13 +9,12 @@ export default async function Note() {
 
   const noteById = (await getNoteById(id)).body;
 
-  console.log(`noteById`, noteById);
   return (
-    <main className="flex flex-col px-20 pt-10 w-screen">
-      <h1 className={`text-2xl font-bold`}>Nota</h1>
+    <main className="flex w-screen flex-col px-20 pt-10">
+      <h1 className={`text-2xl font-bold`}>Nota: {noteById?.title}</h1>
 
       <section className={`w-3/4`}>
-      <NotePageFields noteById={noteById} />
+        <NotePageFields noteById={noteById} />
       </section>
     </main>
   );

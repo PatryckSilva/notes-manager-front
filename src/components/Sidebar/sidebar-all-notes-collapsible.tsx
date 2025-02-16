@@ -1,31 +1,24 @@
 "use client";
 
 import { INote } from "@/@types/actions/notes";
-import { ChevronDown, FileEdit, FilePlus, InboxIcon } from "lucide-react";
+import { ChevronDown, FilePlus, InboxIcon } from "lucide-react";
+import Link from "next/link";
 import React, { Fragment } from "react";
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "../ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
 import { Sheet, SheetTrigger } from "../ui/sheet";
 import { SidebarGroupContent, SidebarGroupLabel } from "../ui/sidebar";
 import { CreateNoteSheet } from "./create-notes-sheet";
 
-export const SidebarAllNotesCollapsible = ({
-  allNotes = [],
-}: {
-  allNotes?: INote[];
-}) => {
+export const SidebarAllNotesCollapsible = ({ allNotes = [] }: { allNotes?: INote[] }) => {
   const userHasNotes = allNotes.length > 0;
   const [isOpenCollapsible, setIsOpenCollapsible] = React.useState(true);
   const [sheetIsOpen, setSheetIsOpen] = React.useState(false);
 
   const handleOpenCollapsible = () => {
-    setIsOpenCollapsible((prev) => !prev);
+    setIsOpenCollapsible(prev => !prev);
   };
   const handleOpenCreateNote = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -47,12 +40,12 @@ export const SidebarAllNotesCollapsible = ({
             onClick={blockSheetOpenByLeftClick}
             onContextMenu={handleOpenCreateNote}
           >
-            <SidebarGroupLabel
-              className={`flex w-full items-center justify-between gap-1.5  `}
-            >
+            <SidebarGroupLabel className={`flex w-full items-center justify-between gap-1.5  `}>
               <aside className="flex items-center gap-1.5">
                 <InboxIcon className={`size-5`} />
-                <span className="text-xs font-medium">Todas as Notas</span>
+                <Link className="text-xs font-medium" href={"/"}>
+                  Todas as Notas
+                </Link>
               </aside>
 
               <aside className="flex items-center gap-1">
@@ -80,18 +73,12 @@ export const SidebarAllNotesCollapsible = ({
               {userHasNotes &&
                 allNotes.map(({ id, title }) => (
                   <Fragment key={id}>
-                    <div
+                    <Link
                       className={`flex cursor-pointer items-center justify-between rounded-md p-2 hover:bg-muted`}
+                      href={`/note/${id}`}
                     >
-                      <span className="w-[200px] truncate text-sm">
-                        {title}
-                      </span>
-
-                      <button>
-                        <span className={`sr-only`}>Editar Nota</span>
-                        <FileEdit className={`size-4 `} />
-                      </button>
-                    </div>
+                      <span className="w-[200px] truncate text-sm">{title}</span>
+                    </Link>
                     <Separator />
                   </Fragment>
                 ))}
