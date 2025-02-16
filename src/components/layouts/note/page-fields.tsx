@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateOrUpdateNote } from "@/hooks/useCreateNote";
+import { useCreateOrUpdateNote } from "@/hooks/use-create-or-update-note";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

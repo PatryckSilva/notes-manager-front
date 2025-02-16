@@ -1,12 +1,10 @@
-import { IFolder } from "@/@types/actions/folders";
+"use server";
+import { ICreateFolderBody, IFolder } from "@/@types/actions/folders";
 import { HttpResponse } from "@/@types/httpTypes";
 import { apiEndpoints } from "@/config/constants";
 import { httpClient } from "@/infra/http-client";
 import { cookies } from "next/headers";
 
-interface ICreateFolderBody {
-  name: string;
-}
 export async function createFolder(data: ICreateFolderBody) {
   const authCookie = (await cookies()).get("auth_token");
 

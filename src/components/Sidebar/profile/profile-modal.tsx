@@ -14,7 +14,6 @@ import {
   DialogTrigger,
 } from "../../ui/dialog";
 import { Label } from "../../ui/label";
-import { SidebarFooter } from "../../ui/sidebar";
 
 const ProfileModal = ({ userInfos }: { userInfos: { name: string; email: string } | string }) => {
   if (typeof userInfos === "string") {
@@ -24,21 +23,21 @@ const ProfileModal = ({ userInfos }: { userInfos: { name: string; email: string 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <SidebarFooter
-          className={`cursor-pointer flex-row items-center rounded-t-xl border-t border-border py-3.5`}
+        <div
+          className={`flex cursor-pointer items-center gap-2 rounded-t-xl border-t border-border py-3.5`}
         >
           <figure>
             <div className={`size-10 shrink-0 rounded-full bg-muted-foreground`} />
           </figure>
-          <div className={`flex max-w-48 flex-col items-start gap-1 truncate`}>
+          <article className={`flex max-w-48 flex-col items-start gap-1 truncate`}>
             <span className={`text-base font-bold text-primary`}>
               {truncateText(userInfos.name, 20)}
             </span>
             <span className={`text-xs text-muted-foreground`}>
               {truncateText(userInfos.email, 30)}
             </span>
-          </div>
-        </SidebarFooter>
+          </article>
+        </div>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
