@@ -1,12 +1,13 @@
-"use server";
-
-import { INotes, TCreateNoteBody } from "@/@types/actions/notes";
+import { IFolder } from "@/@types/actions/folders";
 import { HttpResponse } from "@/@types/httpTypes";
 import { apiEndpoints } from "@/config/constants";
 import { httpClient } from "@/infra/http-client";
 import { cookies } from "next/headers";
 
-export async function createNote(data: TCreateNoteBody) {
+interface ICreateFolderBody {
+  name: string;
+}
+export async function createFolder(data: ICreateFolderBody) {
   const authCookie = (await cookies()).get("auth_token");
 
   const headers = {
@@ -16,7 +17,7 @@ export async function createNote(data: TCreateNoteBody) {
 
   const response = await httpClient.request({
     method: "post",
-    url: apiEndpoints.notes.createNote,
+    url: apiEndpoints.folders.createFolder,
     body: data,
     headers,
   });
@@ -24,7 +25,7 @@ export async function createNote(data: TCreateNoteBody) {
   return response;
 }
 
-export async function getAllUserNotes(): Promise<HttpResponse<{ message: string } | INotes[]>> {
+export async function getUsersFolders(): Promise<HttpResponse<IFolder[]>> {
   const authCookie = (await cookies()).get("auth_token");
 
   const headers = {
@@ -34,7 +35,7 @@ export async function getAllUserNotes(): Promise<HttpResponse<{ message: string 
 
   const response = await httpClient.request({
     method: "get",
-    url: apiEndpoints.notes.findNotesByUser,
+    url: apiEndpoints.folders.findFoldersByUser,
     headers,
   });
 

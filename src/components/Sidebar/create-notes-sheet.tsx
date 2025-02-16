@@ -13,7 +13,6 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-
 const formCreateNoteSchema = z.object({
   title: z
     .string({ message: "O título da nota é obrigatório!" })
@@ -89,6 +88,9 @@ export const CreateNoteSheet = ({
             name="content"
             render={({ field }) => (
               <FormItem>
+                <FormLabel className="font-semibold text-muted-foreground">
+                  Conteúdo da nota:
+                </FormLabel>
                 <FormControl>
                   <Textarea className={`h-40 italic`} placeholder="Escreva aqui..." {...field} />
                 </FormControl>

@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  const publicRoute = publicRoutes.find(route => route.path === pathname);
+  const publicRoute = publicRoutes.find((route) => route.path === pathname);
 
   if (publicRoute) {
     if (!authToken) return NextResponse.next();
