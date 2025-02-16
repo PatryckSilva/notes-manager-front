@@ -26,12 +26,9 @@ export async function AppSidebar() {
   const cookieStore = await cookies();
   const userInfos = JSON.parse(cookieStore.get("user_infos")?.value || "{}");
   const allUserNotes = await getAllUserNotes();
-  const userHasNotes =
-    Array.isArray(allUserNotes.body) && allUserNotes.body.length > 0;
+  const userHasNotes = Array.isArray(allUserNotes.body) && allUserNotes.body.length > 0;
   const allFolders =
-    (await getUsersFolders()).body?.filter(
-      (item) => item.name !== "Todas as Notas",
-    ) || [];
+    (await getUsersFolders()).body?.filter(item => item.name !== "Todas as Notas") || [];
 
   const allNotes = Array.isArray(allUserNotes.body) ? allUserNotes.body : [];
 
@@ -53,26 +50,20 @@ export async function AppSidebar() {
               <ScrollArea className="h-fit max-h-80 w-full overflow-auto">
                 <>
                   {userHasNotes &&
-                    allNotes.map((note) => (
+                    allNotes.map(note => (
                       <Fragment key={note.id}>
                         <Link
                           className={`flex cursor-pointer items-center justify-between rounded-md p-2 hover:bg-muted`}
                           href={`/note/${note.id}`}
                         >
-                          <span className="w-[200px] truncate text-sm">
-                            {note.title}
-                          </span>
+                          <span className="w-[200px] truncate text-sm">{note.title}</span>
                         </Link>
-                        {allNotes.indexOf(note) !== allNotes.length - 1 && (
-                          <Separator />
-                        )}
+                        {allNotes.indexOf(note) !== allNotes.length - 1 && <Separator />}
                       </Fragment>
                     ))}
 
                   {!userHasNotes && (
-                    <span
-                      className={`text-xs font-medium text-muted-foreground`}
-                    >
+                    <span className={`text-xs font-medium text-muted-foreground`}>
                       Você ainda não tem nenhuma nota.
                     </span>
                   )}
@@ -84,9 +75,7 @@ export async function AppSidebar() {
 
         <SidebarGroup className="border-t border-border">
           <SidebarGroupLabel>
-            <span
-              className={`flex w-full items-center justify-between gap-1.5  `}
-            >
+            <span className={`flex w-full items-center justify-between gap-1.5  `}>
               <span className="flex items-center gap-1.5">
                 <span className="text-xs font-medium">Pastas</span>
               </span>

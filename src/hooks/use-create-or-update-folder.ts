@@ -1,5 +1,5 @@
 import { ICreateFolderBody } from "@/@types/actions/folders";
-import { createFolder } from "@/actions/Folders";
+import { createFolder, updateFolder } from "@/actions/Folders";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -32,6 +32,7 @@ export const useCreateOrUpdateFolder = (params: UseFolderParams) => {
   });
 
   async function onSubmit(values: TFormFolderSchema) {
+    console.log(`values`, values);
     if (type === "create") {
       const newObj: ICreateFolderBody = {
         name: values.name,
@@ -45,8 +46,24 @@ export const useCreateOrUpdateFolder = (params: UseFolderParams) => {
       router.refresh();
       return toast({ title: "Pasta criada com sucesso", variant: "success" });
     } else {
-      // TODO: make update folder
-      console.log("update folder");
+      const newObj = {
+        name: values.name,
+      };
+
+      if (!folderId) {
+        return toast({ title: "Note ID is missing", variant: "destructive" });
+      }
+
+      const response = await updateFolder(folderId, newObj);
+      if (!response.ok) {
+        return toast({ title: response.body.message, variant: "destructive" });
+      }
+
+      router.refresh();
+      return toast({
+        title: "Pasta atualizada com sucesso",
+        variant: "success",
+      });
     }
   }
 

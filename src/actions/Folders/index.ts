@@ -28,6 +28,29 @@ export async function createFolder(data: ICreateFolderBody) {
   return response;
 }
 
+export async function getFolderById(id: string): Promise<HttpResponse<IFolder>> {
+  const heads = headers();
+  const pathname = heads.get("x-url") || "";
+
+  const authCookie = (await cookies()).get("auth_token");
+
+  const requestHeaders = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    cookie: authCookie?.value || "",
+  };
+
+  const url = `${apiEndpoints.folders.findFolderById}/${id}`;
+
+  const response = await httpClient.request({
+    method: "get",
+    url,
+    headers: requestHeaders,
+  });
+
+  revalidatePath(pathname);
+  return response;
+}
+
 export async function getUsersFolders(): Promise<HttpResponse<IFolder[]>> {
   const heads = headers();
   const pathname = heads.get("x-url") || "";
@@ -46,5 +69,30 @@ export async function getUsersFolders(): Promise<HttpResponse<IFolder[]>> {
   });
 
   revalidatePath(pathname);
+  return response;
+}
+
+export async function updateFolder(id: string, data: ICreateFolderBody) {
+  const heads = headers();
+  const pathname = heads.get("x-url") || "";
+
+  const authCookie = (await cookies()).get("auth_token");
+
+  const requestHeaders = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    cookie: authCookie?.value || "",
+  };
+
+  const url = `${apiEndpoints.folders.updateFolder}/${id}`;
+
+  const response = await httpClient.request({
+    method: "patch",
+    url,
+    body: data,
+    headers: requestHeaders,
+  });
+
+  revalidatePath(pathname);
+  revalidatePath("/");
   return response;
 }

@@ -17,6 +17,7 @@ export const apiEndpoints = {
   },
   folders: {
     findFoldersByUser: `${envs.apiUrl}/folders/`,
+    findFolderById: `${envs.apiUrl}/folders/by-id`,
     createFolder: `${envs.apiUrl}/folders/create/`,
     updateFolder: `${envs.apiUrl}/folders/update`,
     deleteFolder: `${envs.apiUrl}/folders/delete`,

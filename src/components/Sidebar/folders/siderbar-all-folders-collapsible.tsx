@@ -19,7 +19,9 @@ export const SidebarAllFoldersCollapsible = ({ allFolders }: { allFolders: IFold
               <SidebarMenuButton asChild>
                 <span>
                   <Folder />
-                  <span className="font-medium">{folder.name}</span>
+                  <Link className="text-xs font-medium underline" href={`/folder/${folder.id}`}>
+                    {folder.name}
+                  </Link>
                 </span>
               </SidebarMenuButton>
               <ChevronDown className="ml-auto transition-transform" />
