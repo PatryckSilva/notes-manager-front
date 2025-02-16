@@ -132,7 +132,7 @@ export const NotePageFields = ({
                                 key={folder.id}
                                 onSelect={currentValue => {
                                   setFolderIdValue(form, currentValue);
-                                  setOpen(false);
+                                  setOpenPopover(false);
                                 }}
                                 value={folder.id}
                               >
