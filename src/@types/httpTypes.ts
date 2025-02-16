@@ -19,7 +19,7 @@ export interface HttpClient<R = any> {
 
 export type HttpRequest = {
   url: string;
-  method: "delete" | "get" | "post" | "put";
+  method: "delete" | "get" | "patch" | "post" | "put";
   body?: any;
   headers?: any;
 };

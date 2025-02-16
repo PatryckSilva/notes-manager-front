@@ -12,3 +12,9 @@ export interface TCreateNoteBody {
   title: string;
   content: string;
 }
+
+export interface TUpdateNoteBody {
+  title?: string;
+  content?: string;
+  folderId?: string;
+}

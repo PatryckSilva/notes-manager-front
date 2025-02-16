@@ -11,20 +11,32 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateNote } from "@/hooks/useCreateNote";
+import { useCreateOrUpdateNote } from "@/hooks/useCreateNote";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export const NotePageFields = ({ noteById }: { noteById?: INote }) => {
-  const { form } = useCreateNote({
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!noteById) {
+      router.push("/notes");
+    }
+  }, []);
+
+  const { form, onSubmit } = useCreateOrUpdateNote({
+    type: "update",
+    noteId: noteById?.id || "",
     defaultValues: {
-      title: noteById?.title ?? "",
-      content: noteById?.content ?? "",
+      title: noteById?.title || "",
+      content: noteById?.content || "",
     },
   });
 
   return (
     <div className="mt-5 flex flex-col">
       <Form {...form}>
-        <form className="w-full space-y-4 py-4">
+        <form className="w-full space-y-4 py-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="title"

@@ -9,6 +9,7 @@ export default async function Note() {
 
   const noteById = (await getNoteById(id)).body;
 
+  console.log(`noteById`, noteById);
   return (
     <main className="flex w-screen flex-col px-20 pt-10">
       <h1 className={`text-2xl font-bold`}>Nota: {noteById?.title}</h1>
