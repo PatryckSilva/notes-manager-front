@@ -17,13 +17,16 @@ export async function middleware(request: NextRequest) {
   const tokenCookie = cookieStore.get("auth_token");
   const authToken = tokenCookie?.value;
 
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-url", request.url);
+
   if (pathname === "/") {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = REDIRECT_WHEN_DEFAULT_PATH;
     return NextResponse.redirect(redirectUrl);
   }
 
-  const publicRoute = publicRoutes.find((route) => route.path === pathname);
+  const publicRoute = publicRoutes.find(route => route.path === pathname);
 
   if (publicRoute) {
     if (!authToken) return NextResponse.next();
@@ -51,7 +54,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  return NextResponse.next();
+  return NextResponse.next({
+    request: {
+      // Apply new request headers
+      headers: requestHeaders,
+    },
+  });
 }
 
 export const config: MiddlewareConfig = {
