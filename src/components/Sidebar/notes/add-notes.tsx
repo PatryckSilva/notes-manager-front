@@ -161,7 +161,7 @@ export const AddNotes = ({
                       <PopoverContent className="w-[200px] p-0">
                         <Command>
                           <CommandList>
-                            <CommandEmpty>No framework found.</CommandEmpty>
+                            <CommandEmpty>Nenhuma pasta encontrada.</CommandEmpty>
                             <CommandGroup>
                               {allFolders.map(folder => (
                                 <CommandItem

@@ -29,7 +29,12 @@ export async function middleware(request: NextRequest) {
   const publicRoute = publicRoutes.find(route => route.path === pathname);
 
   if (publicRoute) {
-    if (!authToken) return NextResponse.next();
+    if (!authToken)
+      return NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      });
 
     const verifyResponse = await getUserByEmail();
     if (verifyResponse.ok && publicRoute.whenAuthenticated === "redirect") {
@@ -38,7 +43,11 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(redirectUrl);
     }
 
-    return NextResponse.next();
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
   }
 
   if (!authToken) {
@@ -56,7 +65,6 @@ export async function middleware(request: NextRequest) {
 
   return NextResponse.next({
     request: {
-      // Apply new request headers
       headers: requestHeaders,
     },
   });

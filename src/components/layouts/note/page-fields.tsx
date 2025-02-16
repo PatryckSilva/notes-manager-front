@@ -1,6 +1,18 @@
 "use client";
 import { IFolder } from "@/@types/actions/folders";
 import { INote } from "@/@types/actions/notes";
+import { deleteNote } from "@/actions/Notes";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -22,6 +34,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { useSidebar } from "@/components/ui/sidebar";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateOrUpdateNote } from "@/hooks/use-create-or-update-note";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -36,6 +49,7 @@ export const NotePageFields = ({
 }) => {
   const { open } = useSidebar();
   const router = useRouter();
+  const { toast } = useToast();
   const [openPopover, setOpenPopover] = React.useState(false);
 
   useEffect(() => {
@@ -55,6 +69,17 @@ export const NotePageFields = ({
 
   const currentFolder = allFolders.find(folder => folder.id === noteById?.folderId);
 
+  const handleDeleteNote = async () => {
+    if (!noteById) return toast({ title: "Nota não encontrada", variant: "destructive" });
+
+    const response = await deleteNote(noteById?.id || "");
+
+    if (response.ok) {
+      return router.refresh();
+    }
+
+    return toast({ title: "Erro ao deletar nota", variant: "destructive" });
+  };
   return (
     <section className={`${open ? "w-3/4" : ""} mt-5 flex flex-col`}>
       <Form {...form}>
@@ -125,7 +150,7 @@ export const NotePageFields = ({
                     <PopoverContent className="w-[200px] p-0">
                       <Command>
                         <CommandList>
-                          <CommandEmpty>No framework found.</CommandEmpty>
+                          <CommandEmpty>Nenhuma pasta encontrada.</CommandEmpty>
                           <CommandGroup>
                             {allFolders.map(folder => (
                               <CommandItem
@@ -154,7 +179,33 @@ export const NotePageFields = ({
               </FormItem>
             )}
           />
-          <Button type="submit">Salvar</Button>
+          <Button className="mr-2" type="submit">
+            Salvar
+          </Button>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant={"destructive"}>Deletar Nota</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Essa ação é <strong>irreversível</strong>. Essa nota será deletada{" "}
+                  <strong>permanentemente</strong>.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  className={`bg-destructive hover:bg-destructive`}
+                  onClick={handleDeleteNote}
+                >
+                  Deletar
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </form>
       </Form>
     </section>

@@ -25,13 +25,35 @@ export async function createFolder(data: ICreateFolderBody) {
   });
 
   revalidatePath(pathname);
+  revalidatePath("/dashboard");
+  return response;
+}
+
+export async function deleteFolder(id: string) {
+  const heads = headers();
+  const pathname = heads.get("x-url") || "";
+
+  const authCookie = (await cookies()).get("auth_token");
+
+  const requestHeaders = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    cookie: authCookie?.value || "",
+  };
+
+  const url = `${apiEndpoints.folders.deleteFolder}/${id}`;
+
+  const response = await httpClient.request({
+    method: "delete",
+    url,
+    headers: requestHeaders,
+  });
+
+  revalidatePath(pathname);
+  revalidatePath("/dashboard");
   return response;
 }
 
 export async function getFolderById(id: string): Promise<HttpResponse<IFolder>> {
-  const heads = headers();
-  const pathname = heads.get("x-url") || "";
-
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -47,14 +69,10 @@ export async function getFolderById(id: string): Promise<HttpResponse<IFolder>> 
     headers: requestHeaders,
   });
 
-  revalidatePath(pathname);
   return response;
 }
 
 export async function getUsersFolders(): Promise<HttpResponse<IFolder[]>> {
-  const heads = headers();
-  const pathname = heads.get("x-url") || "";
-
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -68,7 +86,6 @@ export async function getUsersFolders(): Promise<HttpResponse<IFolder[]>> {
     headers: requestHeaders,
   });
 
-  revalidatePath(pathname);
   return response;
 }
 
@@ -93,6 +110,6 @@ export async function updateFolder(id: string, data: ICreateFolderBody) {
   });
 
   revalidatePath(pathname);
-  revalidatePath("/");
+  revalidatePath("/dashboard");
   return response;
 }

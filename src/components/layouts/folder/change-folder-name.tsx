@@ -1,6 +1,18 @@
 "use client";
 
 import { IFolder } from "@/@types/actions/folders";
+import { deleteFolder } from "@/actions/Folders";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,9 +25,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useCreateOrUpdateFolder } from "@/hooks/use-create-or-update-folder";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export const ChangeFolderName = ({ currentFolder }: { currentFolder: IFolder }) => {
   const { open } = useSidebar();
+  const { toast } = useToast();
+  const router = useRouter();
 
   const { form, onSubmit } = useCreateOrUpdateFolder({
     type: "update",
@@ -27,6 +43,19 @@ export const ChangeFolderName = ({ currentFolder }: { currentFolder: IFolder }) 
 
   const submitFormAndCloseSheet = () => {
     form.handleSubmit(onSubmit)();
+  };
+
+  const handleDeleteFolder = async () => {
+    if (!currentFolder.id)
+      return toast({ title: "Erro ao deletar pasta!", variant: "destructive" });
+
+    const response = await deleteFolder(currentFolder.id);
+
+    if (response.ok) {
+      return router.refresh();
+    }
+
+    return toast({ title: "Erro ao deletar pasta!", variant: "destructive" });
   };
 
   return (
@@ -53,6 +82,30 @@ export const ChangeFolderName = ({ currentFolder }: { currentFolder: IFolder }) 
           />
 
           <Button type="submit">Salvar novo nome</Button>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant={"destructive"}>Deletar Pasta</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Essa ação é <strong>irreversível</strong>. Essa pasta será deletada{" "}
+                  <strong>permanentemente</strong>.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  className={`bg-destructive hover:bg-destructive`}
+                  onClick={handleDeleteFolder}
+                >
+                  Deletar Pasta
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </form>
       </Form>
     </section>

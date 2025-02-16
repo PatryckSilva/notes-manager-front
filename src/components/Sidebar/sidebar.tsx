@@ -29,7 +29,6 @@ export async function AppSidebar() {
   const userHasNotes = Array.isArray(allUserNotes.body) && allUserNotes.body.length > 0;
   const allFolders =
     (await getUsersFolders()).body?.filter(item => item.name !== "Todas as Notas") || [];
-
   const allNotes = Array.isArray(allUserNotes.body) ? allUserNotes.body : [];
 
   return (
@@ -63,9 +62,11 @@ export async function AppSidebar() {
                     ))}
 
                   {!userHasNotes && (
-                    <span className={`text-xs font-medium text-muted-foreground`}>
-                      Você ainda não tem nenhuma nota.
-                    </span>
+                    <div className={`p-2`}>
+                      <span className={`text-xs font-medium text-muted-foreground `}>
+                        Você ainda não tem nenhuma nota.
+                      </span>
+                    </div>
                   )}
                 </>
               </ScrollArea>

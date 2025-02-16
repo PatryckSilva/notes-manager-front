@@ -13,9 +13,7 @@ export default async function Register() {
         <aside className="flex size-full flex-col items-center justify-between rounded-r-sm border border-border bg-white p-10 lg:w-1/2">
           <article className={`flex items-center gap-5`}>
             <LogoSVG className={`size-16`} />
-            <span
-              className={`flex flex-col text-2xl font-bold text-secondary-foreground `}
-            >
+            <span className={`flex flex-col text-2xl font-bold text-secondary-foreground `}>
               Notes <span className={`-mt-1.5`}>Manager</span>
             </span>
           </article>

@@ -32,7 +32,6 @@ export const useCreateOrUpdateFolder = (params: UseFolderParams) => {
   });
 
   async function onSubmit(values: TFormFolderSchema) {
-    console.log(`values`, values);
     if (type === "create") {
       const newObj: ICreateFolderBody = {
         name: values.name,

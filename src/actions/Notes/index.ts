@@ -26,12 +26,34 @@ export async function createNote(data: TCreateNoteBody) {
   });
 
   revalidatePath(pathname);
+  revalidatePath("/dashboard");
+  return response;
+}
+
+export async function deleteNote(id: string) {
+  const heads = headers();
+  const pathname = heads.get("x-url") || "";
+  const authCookie = (await cookies()).get("auth_token");
+
+  const requestHeaders = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    cookie: authCookie?.value || "",
+  };
+
+  const url = `${apiEndpoints.notes.deleteNote}/${id}`;
+
+  const response = await httpClient.request({
+    method: "delete",
+    url,
+    headers: requestHeaders,
+  });
+
+  revalidatePath(pathname);
+  revalidatePath("/dashboard");
   return response;
 }
 
 export async function getAllUserNotes(): Promise<HttpResponse<{ message: string } | INote[]>> {
-  const heads = headers();
-  const pathname = heads.get("x-url") || "";
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -45,13 +67,10 @@ export async function getAllUserNotes(): Promise<HttpResponse<{ message: string 
     headers: requestHeaders,
   });
 
-  revalidatePath(pathname);
   return response;
 }
 
 export async function getNoteById(id: string): Promise<HttpResponse<INote>> {
-  const heads = headers();
-  const pathname = heads.get("x-url") || "";
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -67,7 +86,6 @@ export async function getNoteById(id: string): Promise<HttpResponse<INote>> {
     headers: requestHeaders,
   });
 
-  revalidatePath(pathname);
   return response;
 }
 
@@ -91,5 +109,6 @@ export async function updateNote(id: string, data: TUpdateNoteBody) {
   });
 
   revalidatePath(pathname);
+  revalidatePath("/dashboard");
   return response;
 }
