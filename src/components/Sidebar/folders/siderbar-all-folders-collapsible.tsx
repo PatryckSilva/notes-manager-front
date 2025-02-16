@@ -32,7 +32,7 @@ export const SidebarAllFoldersCollapsible = ({ allFolders }: { allFolders: IFold
                 className="text-popover-foreground outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
                 key={note.id}
               >
-                <ScrollArea className="h-fit max-h-80 w-full">
+                <ScrollArea className="h-fit max-h-40 w-full overflow-auto">
                   <div className="border-l border-border pl-3.5">
                     <Link
                       className="flex cursor-pointer items-center justify-between rounded-md p-2 hover:bg-muted"

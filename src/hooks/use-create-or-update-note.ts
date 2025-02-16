@@ -3,7 +3,8 @@ import { createNote, updateNote } from "@/actions/Notes";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 const formCreateNoteSchema = z.object({
@@ -11,6 +12,7 @@ const formCreateNoteSchema = z.object({
     .string({ message: "O título da nota é obrigatório!" })
     .min(1, "O título da nota é obrigatório!"),
   content: z.string().optional(),
+  folderId: z.string().optional(),
 });
 
 export type TFormCreateNoteSchema = z.infer<typeof formCreateNoteSchema>;
@@ -20,6 +22,7 @@ const formUpdateNoteSchema = z.object({
     .string({ message: "O título da nota é obrigatório!" })
     .min(1, "O título da nota é obrigatório!"),
   content: z.string().optional(),
+  folderId: z.string().optional(),
 });
 
 export type TFormUpdateNoteSchema = z.infer<typeof formUpdateNoteSchema>;
@@ -31,7 +34,8 @@ type UseNoteParams =
 export const useCreateOrUpdateNote = (params: UseNoteParams) => {
   const { type, defaultValues } = params;
   const noteId = type === "update" ? params.noteId : undefined;
-  const formSchema = type === "create" ? formCreateNoteSchema : formUpdateNoteSchema;
+  const formSchema =
+    type === "create" ? formCreateNoteSchema : formUpdateNoteSchema;
   type TFormData = z.infer<typeof formSchema>;
 
   const router = useRouter();
@@ -47,6 +51,7 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
       const newObj: TCreateNoteBody = {
         title: values.title,
         content: values.content ?? "",
+        folderId: values.folderId ?? "",
       };
 
       const response = await createNote(newObj);
@@ -57,10 +62,10 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
       router.refresh();
       return toast({ title: "Nota criada com sucesso", variant: "success" });
     } else {
-      console.log("update note");
       const newObj: TUpdateNoteBody = {
         title: values.title,
         content: values.content,
+        folderId: values.folderId,
       };
 
       if (!noteId) {
@@ -80,5 +85,20 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
     }
   }
 
-  return { form, onSubmit };
+  const setFolderIdValue = (
+    form: UseFormReturn<
+      {
+        title: string;
+        content?: string | undefined;
+        folderId?: string | undefined;
+      },
+      any,
+      undefined
+    >,
+    folderId: string,
+  ) => {
+    form.setValue("folderId", folderId);
+  };
+
+  return { form, onSubmit, setFolderIdValue };
 };

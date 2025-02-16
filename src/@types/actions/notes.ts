@@ -11,6 +11,7 @@ export interface INote {
 export interface TCreateNoteBody {
   title: string;
   content: string;
+  folderId?: string;
 }
 
 export interface TUpdateNoteBody {

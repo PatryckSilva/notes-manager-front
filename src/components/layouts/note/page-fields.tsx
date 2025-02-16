@@ -1,6 +1,14 @@
 "use client";
+import { IFolder } from "@/@types/actions/folders";
 import { INote } from "@/@types/actions/notes";
 import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import {
   Form,
   FormControl,
@@ -10,13 +18,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateOrUpdateNote } from "@/hooks/use-create-or-update-note";
+import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
-export const NotePageFields = ({ noteById }: { noteById?: INote }) => {
+export const NotePageFields = ({
+  noteById,
+  allFolders,
+}: {
+  noteById?: INote;
+  allFolders: IFolder[];
+}) => {
   const router = useRouter();
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     if (!noteById) {
@@ -24,7 +42,7 @@ export const NotePageFields = ({ noteById }: { noteById?: INote }) => {
     }
   }, []);
 
-  const { form, onSubmit } = useCreateOrUpdateNote({
+  const { form, onSubmit, setFolderIdValue } = useCreateOrUpdateNote({
     type: "update",
     noteId: noteById?.id || "",
     defaultValues: {
@@ -32,6 +50,8 @@ export const NotePageFields = ({ noteById }: { noteById?: INote }) => {
       content: noteById?.content || "",
     },
   });
+
+  const currentFolder = allFolders.find(folder => folder.id === noteById?.folderId);
 
   return (
     <div className="mt-5 flex flex-col">
@@ -62,13 +82,76 @@ export const NotePageFields = ({ noteById }: { noteById?: INote }) => {
                   Conteúdo da nota:
                 </FormLabel>
                 <FormControl>
-                  <Textarea className={`h-40 italic`} placeholder="Escreva aqui..." {...field} />
+                  <Textarea className={`h-80 italic`} placeholder="Escreva aqui..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
+          <div>
+            <span className={`text-sm font-semibold text-muted-foreground`}>Pasta Atual:</span>
+            <span className={`ml-2 text-sm font-semibold text-primary`}>
+              {currentFolder?.name || "Sem pasta"}
+            </span>
+          </div>
+
+          <FormField
+            control={form.control}
+            name="folderId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-semibold text-muted-foreground">
+                  Selecione a pasta:
+                </FormLabel>
+                <br />
+                <FormControl>
+                  <Popover onOpenChange={setOpen} open={open}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        aria-expanded={open}
+                        className="w-[200px] justify-between"
+                        role="combobox"
+                        variant="outline"
+                      >
+                        {field.value
+                          ? allFolders.find(folder => folder.id === field.value)?.name
+                          : "Select Folder"}
+                        <ChevronsUpDown className="opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandList>
+                          <CommandEmpty>No framework found.</CommandEmpty>
+                          <CommandGroup>
+                            {allFolders.map(folder => (
+                              <CommandItem
+                                key={folder.id}
+                                onSelect={currentValue => {
+                                  setFolderIdValue(form, currentValue);
+                                  setOpen(false);
+                                }}
+                                value={folder.id}
+                              >
+                                {folder.name}
+                                <Check
+                                  className={cn(
+                                    "ml-auto",
+                                    field.value === folder.id ? "opacity-100" : "opacity-0",
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </FormControl>
+              </FormItem>
+            )}
+          />
           <Button type="submit">Salvar</Button>
         </form>
       </Form>

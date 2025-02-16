@@ -1,21 +1,25 @@
+import { getUsersFolders } from "@/actions/Folders";
 import { getNoteById } from "@/actions/Notes";
 import { NotePageFields } from "@/components/layouts/note/page-fields";
 import { headers } from "next/headers";
 
 export default async function Note() {
+  const allFolders =
+    (await getUsersFolders()).body?.filter(item => item.name !== "Todas as Notas") || [];
   const heads = headers();
   const pathname = heads.get("x-url") || "";
   const id = pathname.split("/").slice(-1)[0];
 
   const noteById = (await getNoteById(id)).body;
 
-  console.log(`noteById`, noteById);
   return (
-    <main className="flex w-screen flex-col px-20 pt-10">
-      <h1 className={`text-2xl font-bold`}>Nota: {noteById?.title}</h1>
+    <main className="flex w-screen flex-col px-8 pt-10 lg:px-20">
+      <h1 className={`text-xl font-bold lg:text-2xl`}>
+        Nota: <br className={`lg:hidden`} /> {noteById?.title}
+      </h1>
 
       <section className={`w-3/4`}>
-        <NotePageFields noteById={noteById} />
+        <NotePageFields allFolders={allFolders} noteById={noteById} />
       </section>
     </main>
   );

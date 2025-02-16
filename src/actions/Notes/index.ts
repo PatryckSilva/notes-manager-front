@@ -4,12 +4,16 @@ import { INote, TCreateNoteBody, TUpdateNoteBody } from "@/@types/actions/notes"
 import { HttpResponse } from "@/@types/httpTypes";
 import { apiEndpoints } from "@/config/constants";
 import { httpClient } from "@/infra/http-client";
-import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { cookies, headers } from "next/headers";
 
 export async function createNote(data: TCreateNoteBody) {
+  const heads = headers();
+  const pathname = heads.get("x-url") || "";
+
   const authCookie = (await cookies()).get("auth_token");
 
-  const headers = {
+  const requestHeaders = {
     "Content-Type": "application/x-www-form-urlencoded",
     cookie: authCookie?.value || "",
   };
@@ -18,16 +22,19 @@ export async function createNote(data: TCreateNoteBody) {
     method: "post",
     url: apiEndpoints.notes.createNote,
     body: data,
-    headers,
+    headers: requestHeaders,
   });
 
+  revalidatePath(pathname);
   return response;
 }
 
 export async function getAllUserNotes(): Promise<HttpResponse<{ message: string } | INote[]>> {
+  const heads = headers();
+  const pathname = heads.get("x-url") || "";
   const authCookie = (await cookies()).get("auth_token");
 
-  const headers = {
+  const requestHeaders = {
     "Content-Type": "application/x-www-form-urlencoded",
     cookie: authCookie?.value || "",
   };
@@ -35,16 +42,19 @@ export async function getAllUserNotes(): Promise<HttpResponse<{ message: string 
   const response = await httpClient.request({
     method: "get",
     url: apiEndpoints.notes.findNotesByUser,
-    headers,
+    headers: requestHeaders,
   });
 
+  revalidatePath(pathname);
   return response;
 }
 
 export async function getNoteById(id: string): Promise<HttpResponse<INote>> {
+  const heads = headers();
+  const pathname = heads.get("x-url") || "";
   const authCookie = (await cookies()).get("auth_token");
 
-  const headers = {
+  const requestHeaders = {
     "Content-Type": "application/x-www-form-urlencoded",
     cookie: authCookie?.value || "",
   };
@@ -54,16 +64,19 @@ export async function getNoteById(id: string): Promise<HttpResponse<INote>> {
   const response = await httpClient.request({
     method: "get",
     url,
-    headers,
+    headers: requestHeaders,
   });
 
+  revalidatePath(pathname);
   return response;
 }
 
 export async function updateNote(id: string, data: TUpdateNoteBody) {
+  const heads = headers();
+  const pathname = heads.get("x-url") || "";
   const authCookie = (await cookies()).get("auth_token");
 
-  const headers = {
+  const requestHeaders = {
     "Content-Type": "application/x-www-form-urlencoded",
     cookie: authCookie?.value || "",
   };
@@ -74,8 +87,9 @@ export async function updateNote(id: string, data: TUpdateNoteBody) {
     method: "patch",
     url,
     body: data,
-    headers,
+    headers: requestHeaders,
   });
 
+  revalidatePath(pathname);
   return response;
 }

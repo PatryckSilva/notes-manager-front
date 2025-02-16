@@ -1,10 +1,11 @@
 import { ICreateFolderBody } from "@/@types/actions/folders";
+import { createFolder } from "@/actions/Folders";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
 import { useToast } from "./use-toast";
-import { createFolder } from "@/actions/Folders";
 
 const formFolderSchema = z.object({
   name: z
@@ -44,6 +45,7 @@ export const useCreateOrUpdateFolder = (params: UseFolderParams) => {
       router.refresh();
       return toast({ title: "Pasta criada com sucesso", variant: "success" });
     } else {
+      // TODO: make update folder
       console.log("update folder");
     }
   }

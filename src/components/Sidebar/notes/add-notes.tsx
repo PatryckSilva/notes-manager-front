@@ -1,6 +1,15 @@
 "use client";
+import { IFolder } from "@/@types/actions/folders";
 import { Button } from "@/components/ui/button";
 import { CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Sheet,
   SheetContent,
@@ -11,7 +20,8 @@ import {
 } from "@/components/ui/sheet";
 import { SidebarGroupLabel } from "@/components/ui/sidebar";
 import { useCreateOrUpdateNote } from "@/hooks/use-create-or-update-note";
-import { ChevronDown, FilePlus, InboxIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Check, ChevronDown, ChevronsUpDown, FilePlus, InboxIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -22,13 +32,16 @@ import { Textarea } from "../../ui/textarea";
 export const AddNotes = ({
   isOpenCollapsible,
   setIsOpenCollapsible,
+  allFolders,
 }: {
+  allFolders: IFolder[];
   isOpenCollapsible: boolean;
   setIsOpenCollapsible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const [open, setOpen] = React.useState(false);
   const [sheetIsOpen, setSheetIsOpen] = React.useState(false);
 
-  const { form, onSubmit } = useCreateOrUpdateNote({
+  const { form, onSubmit, setFolderIdValue } = useCreateOrUpdateNote({
     type: "create",
   });
 
@@ -125,6 +138,58 @@ export const AddNotes = ({
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="folderId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Popover onOpenChange={setOpen} open={open}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          aria-expanded={open}
+                          className="w-[200px] justify-between"
+                          role="combobox"
+                          variant="outline"
+                        >
+                          {field.value
+                            ? allFolders.find(folder => folder.id === field.value)?.name
+                            : "Select Folder"}
+                          <ChevronsUpDown className="opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandList>
+                            <CommandEmpty>No framework found.</CommandEmpty>
+                            <CommandGroup>
+                              {allFolders.map(folder => (
+                                <CommandItem
+                                  key={folder.id}
+                                  onSelect={currentValue => {
+                                    setFolderIdValue(form, currentValue);
+                                    setOpen(false);
+                                  }}
+                                  value={folder.id}
+                                >
+                                  {folder.name}
+                                  <Check
+                                    className={cn(
+                                      "ml-auto",
+                                      field.value === folder.id ? "opacity-100" : "opacity-0",
+                                    )}
+                                  />
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
             <Button className={`w-full`} type="submit">
               Criar nota
             </Button>
