@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useSidebar } from "@/components/ui/sidebar";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateOrUpdateNote } from "@/hooks/use-create-or-update-note";
 import { cn } from "@/lib/utils";
@@ -33,8 +34,9 @@ export const NotePageFields = ({
   noteById?: INote;
   allFolders: IFolder[];
 }) => {
+  const { open } = useSidebar();
   const router = useRouter();
-  const [open, setOpen] = React.useState(false);
+  const [openPopover, setOpenPopover] = React.useState(false);
 
   useEffect(() => {
     if (!noteById) {
@@ -54,7 +56,7 @@ export const NotePageFields = ({
   const currentFolder = allFolders.find(folder => folder.id === noteById?.folderId);
 
   return (
-    <div className="mt-5 flex flex-col">
+    <section className={`${open ? "w-3/4" : ""} mt-5 flex flex-col`}>
       <Form {...form}>
         <form className="w-full space-y-4 py-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -106,7 +108,7 @@ export const NotePageFields = ({
                 </FormLabel>
                 <br />
                 <FormControl>
-                  <Popover onOpenChange={setOpen} open={open}>
+                  <Popover onOpenChange={setOpenPopover} open={openPopover}>
                     <PopoverTrigger asChild>
                       <Button
                         aria-expanded={open}
@@ -155,6 +157,6 @@ export const NotePageFields = ({
           <Button type="submit">Salvar</Button>
         </form>
       </Form>
-    </div>
+    </section>
   );
 };

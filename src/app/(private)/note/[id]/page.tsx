@@ -18,9 +18,7 @@ export default async function Note() {
         Nota: <br className={`lg:hidden`} /> {noteById?.title}
       </h1>
 
-      <section className={`w-3/4`}>
-        <NotePageFields allFolders={allFolders} noteById={noteById} />
-      </section>
+      <NotePageFields allFolders={allFolders} noteById={noteById} />
     </main>
   );
 }
