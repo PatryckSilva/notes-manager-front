@@ -20,7 +20,7 @@ export default async function Folder() {
   return (
     <main className="flex w-screen flex-col px-8 pt-10 lg:px-20">
       <h1 className={`text-xl font-bold lg:text-2xl`}>
-        Folder: <br className={`lg:hidden`} /> {currentFolder?.name}
+        Pasta: <br className={`lg:hidden`} /> {currentFolder?.name}
       </h1>
 
       {currentFolder && <ChangeFolderName currentFolder={currentFolder} />}

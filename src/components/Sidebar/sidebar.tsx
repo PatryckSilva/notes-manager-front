@@ -33,13 +33,14 @@ export async function AppSidebar() {
 
   return (
     <Sidebar className={`!bg-white`}>
-      <SidebarHeader className={`flex-row items-center gap-2.5 p-5`}>
-        <LogoSVG className={`size-14`} />
-        <span className={`flex flex-col text-2xl font-bold text-primary `}>
-          Notes <span className={`-mt-1.5`}>Manager</span>
-        </span>
-      </SidebarHeader>
-
+      <Link href={`/`} passHref>
+        <SidebarHeader className={`flex-row items-center gap-2.5 p-5`}>
+          <LogoSVG className={`size-14`} />
+          <span className={`flex flex-col text-2xl font-bold text-primary `}>
+            Notes <span className={`-mt-1.5`}>Manager</span>
+          </span>
+        </SidebarHeader>
+      </Link>
       <SidebarContent>
         <SidebarGroup>
           <SidebarAllNotesCollapsible allFolders={allFolders}>
