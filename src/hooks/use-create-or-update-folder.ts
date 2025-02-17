@@ -49,6 +49,7 @@ export const useCreateOrUpdateFolder = (params: UseFolderParams) => {
           });
         }
 
+        router.refresh();
         return toast({ title: "Pasta criada com sucesso", variant: "success" });
       } else {
         const newObj = {
@@ -66,6 +67,8 @@ export const useCreateOrUpdateFolder = (params: UseFolderParams) => {
             variant: "destructive",
           });
         }
+
+        router.refresh();
       }
     } catch (error) {
       console.error(error);

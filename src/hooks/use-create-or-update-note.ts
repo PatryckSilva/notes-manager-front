@@ -2,6 +2,7 @@ import { TCreateNoteBody, TUpdateNoteBody } from "@/@types/actions/notes";
 import { createNote, updateNote } from "@/actions/Notes";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -34,6 +35,7 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
   const [isLoading, setIsLoading] = useState(false);
   const { type, defaultValues } = params;
   const noteId = type === "update" ? params.noteId : undefined;
+  const router = useRouter();
   const formSchema = type === "create" ? formCreateNoteSchema : formUpdateNoteSchema;
   type TFormData = z.infer<typeof formSchema>;
 
@@ -62,6 +64,7 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
           });
         }
 
+        router.refresh();
         return toast({ title: "Nota criada com sucesso", variant: "success" });
       }
 
@@ -87,6 +90,7 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
           });
         }
 
+        router.refresh();
         return toast({
           title: "Nota atualizada com sucesso",
           variant: "success",
