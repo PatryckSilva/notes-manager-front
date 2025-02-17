@@ -1,6 +1,7 @@
 import { ICreateFolderBody } from "@/@types/actions/folders";
 import { createFolder, updateFolder } from "@/actions/Folders";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -21,6 +22,7 @@ type UseFolderParams =
 
 export const useCreateOrUpdateFolder = (params: UseFolderParams) => {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const { toast } = useToast();
   const { type } = params;
   const folderId = type === "update" ? params.folderId : undefined;
@@ -73,6 +75,7 @@ export const useCreateOrUpdateFolder = (params: UseFolderParams) => {
         variant: "destructive",
       });
     } finally {
+      router.refresh();
       setIsLoading(false);
     }
   }
