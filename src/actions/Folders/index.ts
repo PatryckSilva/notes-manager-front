@@ -24,7 +24,7 @@ export async function createFolder(data: ICreateFolderBody) {
   });
 
   revalidatePath(pathname);
-  revalidatePath("/");
+  revalidatePath("/dashboard");
   return response;
 }
 
@@ -47,7 +47,7 @@ export async function deleteFolder(id: string) {
   });
 
   revalidatePath(pathname);
-  revalidatePath("/");
+  revalidatePath("/dashboard");
   return response;
 }
 
@@ -107,6 +107,6 @@ export async function updateFolder(id: string, data: ICreateFolderBody) {
   });
 
   revalidatePath(pathname);
-  revalidatePath("/");
+  revalidatePath("/dashboard");
   return response;
 }

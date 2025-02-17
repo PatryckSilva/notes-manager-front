@@ -25,7 +25,7 @@ export async function createNote(data: TCreateNoteBody) {
   });
 
   revalidatePath(pathname);
-  revalidatePath("/");
+  revalidatePath("/dashboard");
   return response;
 }
 
@@ -48,7 +48,7 @@ export async function deleteNote(id: string) {
   });
 
   revalidatePath(pathname);
-  revalidatePath("/");
+  revalidatePath("/dashboard");
   return response;
 }
 
@@ -108,6 +108,6 @@ export async function updateNote(id: string, data: TUpdateNoteBody) {
   });
 
   revalidatePath(pathname);
-  revalidatePath("/");
+  revalidatePath("/dashboard");
   return response;
 }
