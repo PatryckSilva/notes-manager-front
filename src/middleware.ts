@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
   if (pathname === "/") {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = REDIRECT_WHEN_DEFAULT_PATH;
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(REDIRECT_WHEN_DEFAULT_PATH);
   }
 
   const publicRoute = publicRoutes.find(route => route.path === pathname);
@@ -43,8 +43,8 @@ export async function middleware(request: NextRequest) {
 
     if (authToken && publicRoute.whenAuthenticated === "redirect") {
       const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = "/";
-      return NextResponse.redirect(redirectUrl);
+      redirectUrl.pathname = REDIRECT_WHEN_DEFAULT_PATH;
+      return NextResponse.redirect(REDIRECT_WHEN_DEFAULT_PATH);
     }
 
     return NextResponse.next({
@@ -57,13 +57,13 @@ export async function middleware(request: NextRequest) {
   if (!authToken) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE;
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE);
   }
 
   if (!userInfos) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE;
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE);
   }
 
   return NextResponse.next({

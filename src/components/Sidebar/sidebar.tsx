@@ -9,6 +9,7 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
+  SidebarMenu,
 } from "@/components/ui/sidebar";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -91,7 +92,9 @@ export async function AppSidebar() {
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
-            <SidebarAllFoldersCollapsible allFolders={customFolders} />
+            <SidebarMenu>
+              <SidebarAllFoldersCollapsible allFolders={customFolders} />
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

@@ -4,9 +4,12 @@ import { INote, TCreateNoteBody, TUpdateNoteBody } from "@/@types/actions/notes"
 import { HttpResponse } from "@/@types/httpTypes";
 import { apiEndpoints } from "@/config/constants";
 import { httpClient } from "@/infra/http-client";
-import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { cookies, headers } from "next/headers";
 
 export async function createNote(data: TCreateNoteBody) {
+  const heads = await headers();
+  const pathname = heads.get("url-x") || "/note";
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -21,10 +24,14 @@ export async function createNote(data: TCreateNoteBody) {
     headers: requestHeaders,
   });
 
+  revalidatePath(pathname);
+  revalidatePath("/");
   return response;
 }
 
 export async function deleteNote(id: string) {
+  const heads = await headers();
+  const pathname = heads.get("url-x") || "/note";
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -40,6 +47,8 @@ export async function deleteNote(id: string) {
     headers: requestHeaders,
   });
 
+  revalidatePath(pathname);
+  revalidatePath("/");
   return response;
 }
 
@@ -80,6 +89,8 @@ export async function getNoteById(id: string): Promise<HttpResponse<INote>> {
 }
 
 export async function updateNote(id: string, data: TUpdateNoteBody) {
+  const heads = await headers();
+  const pathname = heads.get("url-x") || "/note";
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -96,5 +107,7 @@ export async function updateNote(id: string, data: TUpdateNoteBody) {
     headers: requestHeaders,
   });
 
+  revalidatePath(pathname);
+  revalidatePath("/");
   return response;
 }

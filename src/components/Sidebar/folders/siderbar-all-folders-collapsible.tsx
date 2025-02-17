@@ -2,14 +2,14 @@ import { IFolder } from "@/@types/actions/folders";
 import { CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { Collapsible } from "@radix-ui/react-collapsible";
 import { ChevronDown, Folder } from "lucide-react";
 import Link from "next/link";
 
 export const SidebarAllFoldersCollapsible = ({ allFolders }: { allFolders: IFolder[] }) => {
   return (
-    <SidebarMenu>
+    <>
       {allFolders?.map(folder => (
         <Collapsible key={folder.id}>
           <CollapsibleTrigger
@@ -24,7 +24,7 @@ export const SidebarAllFoldersCollapsible = ({ allFolders }: { allFolders: IFold
                   </Link>
                 </span>
               </SidebarMenuButton>
-              <ChevronDown className="ml-auto transition-transform" />
+              <ChevronDown className={"ml-auto transition-transform"} />
             </SidebarMenuItem>
           </CollapsibleTrigger>
 
@@ -54,6 +54,6 @@ export const SidebarAllFoldersCollapsible = ({ allFolders }: { allFolders: IFold
           )}
         </Collapsible>
       ))}
-    </SidebarMenu>
+    </>
   );
 };

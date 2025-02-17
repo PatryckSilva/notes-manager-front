@@ -50,7 +50,6 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
     setIsLoading(true);
     try {
       if (type === "create") {
-        console.log("create");
         const newObj: TCreateNoteBody = {
           title: values.title,
           content: values.content ?? "",
@@ -58,7 +57,6 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
         };
 
         const response = await createNote(newObj);
-        console.log(`response`, response);
         if (!response.ok) {
           return toast({
             title: response.body.message,
@@ -71,7 +69,6 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
       }
 
       if (type === "update") {
-        console.log("update");
         const newObj: TUpdateNoteBody = {
           title: values.title,
           content: values.content,
