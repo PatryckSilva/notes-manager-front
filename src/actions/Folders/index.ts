@@ -3,13 +3,9 @@ import { ICreateFolderBody, IFolder } from "@/@types/actions/folders";
 import { HttpResponse } from "@/@types/httpTypes";
 import { apiEndpoints } from "@/config/constants";
 import { httpClient } from "@/infra/http-client";
-import { revalidatePath } from "next/cache";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 
 export async function createFolder(data: ICreateFolderBody) {
-  const heads = headers();
-  const pathname = heads.get("x-url") || "";
-
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -24,15 +20,10 @@ export async function createFolder(data: ICreateFolderBody) {
     headers: requestHeaders,
   });
 
-  revalidatePath(pathname);
-  revalidatePath("/dashboard");
   return response;
 }
 
 export async function deleteFolder(id: string) {
-  const heads = headers();
-  const pathname = heads.get("x-url") || "";
-
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -48,8 +39,6 @@ export async function deleteFolder(id: string) {
     headers: requestHeaders,
   });
 
-  revalidatePath(pathname);
-  revalidatePath("/dashboard");
   return response;
 }
 
@@ -90,9 +79,6 @@ export async function getUsersFolders(): Promise<HttpResponse<IFolder[]>> {
 }
 
 export async function updateFolder(id: string, data: ICreateFolderBody) {
-  const heads = headers();
-  const pathname = heads.get("x-url") || "";
-
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -109,7 +95,5 @@ export async function updateFolder(id: string, data: ICreateFolderBody) {
     headers: requestHeaders,
   });
 
-  revalidatePath(pathname);
-  revalidatePath("/dashboard");
   return response;
 }
