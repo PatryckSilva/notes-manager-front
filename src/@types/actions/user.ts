@@ -7,6 +7,12 @@ export interface IUser {
   updatedAt: Date;
 }
 
+export interface IUserPublicInfo {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export type TCreateUserBody = {
   email: string;
   password: string;

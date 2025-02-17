@@ -1,3 +1,4 @@
+import { IUserPublicInfo } from "@/@types/actions/user";
 import { getUsersFolders } from "@/actions/Folders";
 import { getAllUserNotes } from "@/actions/Notes";
 import {
@@ -24,7 +25,10 @@ import ProfileModal from "./profile/profile-modal";
 
 export async function AppSidebar() {
   const cookieStore = await cookies();
-  const userInfos = JSON.parse(cookieStore.get("user_infos")?.value || "{}");
+  const userInfos: IUserPublicInfo | undefined = cookieStore.get("user_infos")?.value
+    ? JSON.parse(cookieStore.get("user_infos")?.value || "{}")
+    : undefined;
+
   const allUserNotes = await getAllUserNotes();
   const userHasNotes = Array.isArray(allUserNotes.body) && allUserNotes.body.length > 0;
   const allFolders =
@@ -41,6 +45,7 @@ export async function AppSidebar() {
           </span>
         </SidebarHeader>
       </Link>
+
       <SidebarContent>
         <SidebarGroup>
           <SidebarAllNotesCollapsible allFolders={allFolders}>
@@ -91,9 +96,11 @@ export async function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
-        <ProfileModal userInfos={userInfos} />
-      </SidebarFooter>
+      {userInfos && (
+        <SidebarFooter>
+          <ProfileModal userInfos={userInfos} />
+        </SidebarFooter>
+      )}
     </Sidebar>
   );
 }
