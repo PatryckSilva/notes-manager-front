@@ -22,6 +22,7 @@ export type HttpRequest = {
   method: "delete" | "get" | "patch" | "post" | "put";
   body?: any;
   headers?: any;
+  tag?: string;
 };
 
 export type HttpResponse<T = any> = {
