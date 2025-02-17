@@ -4,12 +4,10 @@ import { INote, TCreateNoteBody, TUpdateNoteBody } from "@/@types/actions/notes"
 import { HttpResponse } from "@/@types/httpTypes";
 import { apiEndpoints } from "@/config/constants";
 import { httpClient } from "@/infra/http-client";
-import { revalidatePath } from "next/cache";
-import { cookies, headers } from "next/headers";
+import { revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 
 export async function createNote(data: TCreateNoteBody) {
-  const heads = await headers();
-  const pathname = heads.get("url-x") || "/note";
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -24,14 +22,12 @@ export async function createNote(data: TCreateNoteBody) {
     headers: requestHeaders,
   });
 
-  revalidatePath(pathname);
-  revalidatePath("/dashboard");
+  revalidateTag("allUserNotes");
+  revalidateTag("getUsersFolders");
   return response;
 }
 
 export async function deleteNote(id: string) {
-  const heads = await headers();
-  const pathname = heads.get("url-x") || "/note";
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -47,8 +43,6 @@ export async function deleteNote(id: string) {
     headers: requestHeaders,
   });
 
-  revalidatePath(pathname);
-  revalidatePath("/dashboard");
   return response;
 }
 
@@ -64,6 +58,7 @@ export async function getAllUserNotes(): Promise<HttpResponse<{ message: string 
     method: "get",
     url: apiEndpoints.notes.findNotesByUser,
     headers: requestHeaders,
+    tag: "allUserNotes",
   });
 
   return response;
@@ -83,14 +78,13 @@ export async function getNoteById(id: string): Promise<HttpResponse<INote>> {
     method: "get",
     url,
     headers: requestHeaders,
+    tag: "noteById",
   });
 
   return response;
 }
 
 export async function updateNote(id: string, data: TUpdateNoteBody) {
-  const heads = await headers();
-  const pathname = heads.get("url-x") || "/note";
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -107,7 +101,5 @@ export async function updateNote(id: string, data: TUpdateNoteBody) {
     headers: requestHeaders,
   });
 
-  revalidatePath(pathname);
-  revalidatePath("/dashboard");
   return response;
 }
