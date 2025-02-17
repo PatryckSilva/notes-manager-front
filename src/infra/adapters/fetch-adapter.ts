@@ -5,8 +5,9 @@ export class HttpClientAdapter implements HttpClient {
     try {
       const body =
         data.body && typeof data.body === "object" ? JSON.stringify(data.body) : data.body;
+
       const response = await fetch(data.url, {
-        method: data.method,
+        method: data.method.toUpperCase(),
         headers: data.headers,
         body: body,
         credentials: "include",

@@ -100,5 +100,6 @@ export async function updateFolder(id: string, data: ICreateFolderBody) {
     headers: requestHeaders,
   });
 
+  revalidateTag("getUsersFolders");
   return response;
 }

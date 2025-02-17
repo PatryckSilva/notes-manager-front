@@ -22,8 +22,8 @@ export async function createNote(data: TCreateNoteBody) {
     headers: requestHeaders,
   });
 
-  revalidateTag("allUserNotes");
   revalidateTag("getUsersFolders");
+  revalidateTag("allUserNotes");
   return response;
 }
 

@@ -36,6 +36,7 @@ export async function AppSidebar() {
 
   const userFolders = (await getUsersFolders()).body || [];
   const customFolders = userFolders.filter(item => item.name !== "Todas as Notas") || [];
+
   return (
     <Sidebar className={`!bg-white`}>
       <Link href={`/`} passHref>
