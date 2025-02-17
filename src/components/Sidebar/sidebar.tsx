@@ -31,10 +31,10 @@ export async function AppSidebar() {
 
   const allUserNotes = await getAllUserNotes();
   const userHasNotes = Array.isArray(allUserNotes.body) && allUserNotes.body.length > 0;
-  const allFolders =
-    (await getUsersFolders()).body?.filter(item => item.name !== "Todas as Notas") || [];
   const allNotes = Array.isArray(allUserNotes.body) ? allUserNotes.body : [];
 
+  const userFolders = (await getUsersFolders()).body || [];
+  const customFolders = userFolders.filter(item => item.name !== "Todas as Notas") || [];
   return (
     <Sidebar className={`!bg-white`}>
       <Link href={`/`} passHref>
@@ -48,7 +48,7 @@ export async function AppSidebar() {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarAllNotesCollapsible allFolders={allFolders}>
+          <SidebarAllNotesCollapsible allFolders={customFolders}>
             <CollapsibleContent
               className={`text-popover-foreground outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2`}
             >
@@ -91,7 +91,7 @@ export async function AppSidebar() {
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
-            <SidebarAllFoldersCollapsible allFolders={allFolders} />
+            <SidebarAllFoldersCollapsible allFolders={customFolders} />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

@@ -42,7 +42,9 @@ export async function deleteFolder(id: string) {
   return response;
 }
 
-export async function getFolderById(id: string): Promise<HttpResponse<IFolder>> {
+export async function getFolderById(
+  id: string,
+): Promise<HttpResponse<IFolder>> {
   const authCookie = (await cookies()).get("auth_token");
 
   const requestHeaders = {
@@ -74,7 +76,7 @@ export async function getUsersFolders(): Promise<HttpResponse<IFolder[]>> {
     url: apiEndpoints.folders.findFoldersByUser,
     headers: requestHeaders,
   });
-
+  console.log(`response`, response);
   return response;
 }
 

@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
@@ -83,7 +84,7 @@ export function LoginForm() {
             <FormItem>
               <FormLabel className="font-semibold text-muted-foreground">Senha:</FormLabel>
               <FormControl>
-                <Input placeholder="Senha" type="password" {...field} />
+                <PasswordInput placeholder="Senha" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
