@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/layouts/Login/LoginForm";
+import { LoginForm } from "@/components/layouts/login/LoginForm";
 import LogoSVG from "@/components/svgs/logo";
 import Link from "next/link";
 

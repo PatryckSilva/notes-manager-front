@@ -1,4 +1,5 @@
 import { getAllUserNotes } from "@/actions/Notes";
+import { NoNotesFoundButton } from "@/components/layouts/dashboard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 
@@ -7,7 +8,7 @@ export default async function Home() {
   const allNotes = Array.isArray(allUserNotes.body) ? allUserNotes.body : [];
   return (
     <main className="flex flex-col px-20 pt-10">
-      <h1 className={`text-2xl font-bold`}>Todas as notas:</h1>
+      {allNotes.length > 0 && <h1 className={`text-2xl font-bold`}>Todas as notas:</h1>}
 
       <section className={`mt-5 flex w-full flex-wrap gap-10`}>
         {allNotes.map(note => (
@@ -26,6 +27,8 @@ export default async function Home() {
             </Card>
           </Link>
         ))}
+
+        {allNotes.length === 0 && <NoNotesFoundButton />}
       </section>
     </main>
   );
