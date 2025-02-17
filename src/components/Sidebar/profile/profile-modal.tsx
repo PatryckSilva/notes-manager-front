@@ -41,7 +41,7 @@ const ProfileModal = ({ userInfos }: { userInfos: { name: string; email: string 
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader className={`gap-2`}>
+        <DialogHeader className={`flex flex-col items-start gap-2 text-start`}>
           <DialogTitle className={`mb-4`}>Profile</DialogTitle>
 
           <Label>Name:</Label>
@@ -52,15 +52,14 @@ const ProfileModal = ({ userInfos }: { userInfos: { name: string; email: string 
 
           <span>{userInfos.email}</span>
         </DialogHeader>
-        <div className="grid gap-4 py-4"></div>
-        <DialogFooter className={`flex flex-col items-start`}>
+        <DialogFooter className={`flex w-full flex-row items-center justify-end gap-2.5`}>
           <DialogClose asChild>
             <Button type="submit" variant={"ghost"}>
               Cancel
             </Button>
           </DialogClose>
 
-          <Button onClick={() => logout()} type="submit" variant={"destructive"}>
+          <Button onClick={logout} type="submit" variant={"destructive"}>
             Logout
           </Button>
         </DialogFooter>
