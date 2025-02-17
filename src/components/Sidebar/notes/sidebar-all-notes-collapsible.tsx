@@ -10,12 +10,15 @@ import { AddNotes } from "./add-notes";
 export const SidebarAllNotesCollapsible = ({
   children,
   allFolders,
+  allNotes,
 }: {
   children: ReactNode;
   allFolders: IFolder[];
+  allNotes: any[];
 }) => {
   const [isOpenCollapsible, setIsOpenCollapsible] = React.useState(true);
-
+  console.log(`allNotes`, allNotes);
+  console.log(`allFolders`, allFolders);
   return (
     <Collapsible onOpenChange={setIsOpenCollapsible} open={isOpenCollapsible}>
       <AddNotes
