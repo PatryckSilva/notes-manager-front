@@ -43,6 +43,7 @@ export const AddNotes = ({
 
   const { form, onSubmit, setFolderIdValue } = useCreateOrUpdateNote({
     type: "create",
+    defaultValues: { title: "", content: "", folderId: "" },
   });
 
   const submitFormAndCloseSheet = () => {
