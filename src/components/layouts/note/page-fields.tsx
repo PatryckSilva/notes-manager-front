@@ -36,7 +36,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useCreateOrUpdateNote } from "@/hooks/use-create-or-update-note";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -58,7 +58,12 @@ export const NotePageFields = ({
     }
   }, []);
 
-  const { form, onSubmit, setFolderIdValue } = useCreateOrUpdateNote({
+  const {
+    form,
+    onSubmit,
+    setFolderIdValue,
+    isLoading: isLoadingUpdate,
+  } = useCreateOrUpdateNote({
     type: "update",
     noteId: noteById?.id || "",
     defaultValues: {
@@ -179,13 +184,16 @@ export const NotePageFields = ({
               </FormItem>
             )}
           />
-          <Button className="mr-2" type="submit">
-            Salvar
+
+          <Button className="mr-2 w-36" type="submit">
+            {isLoadingUpdate ? <Loader className={`animate-spin`} /> : "Atualizar Nota"}
           </Button>
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant={"destructive"}>Deletar Nota</Button>
+              <Button className={`w-28`} variant={"destructive"}>
+                Deletar Nota
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>

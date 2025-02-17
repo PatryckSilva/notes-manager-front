@@ -32,10 +32,10 @@ type UseNoteParams =
   | { type: "update"; noteId: string; defaultValues: TFormUpdateNoteSchema };
 
 export const useCreateOrUpdateNote = (params: UseNoteParams) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { type, defaultValues } = params;
   const noteId = type === "update" ? params.noteId : undefined;
-  const formSchema =
-    type === "create" ? formCreateNoteSchema : formUpdateNoteSchema;
+  const formSchema = type === "create" ? formCreateNoteSchema : formUpdateNoteSchema;
   type TFormData = z.infer<typeof formSchema>;
 
   const router = useRouter();
@@ -47,41 +47,67 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
   });
 
   async function onSubmit(values: TFormData) {
-    if (type === "create") {
-      const newObj: TCreateNoteBody = {
-        title: values.title,
-        content: values.content ?? "",
-        folderId: values.folderId ?? "",
-      };
+    setIsLoading(true);
+    try {
+      if (type === "create") {
+        console.log("create");
+        const newObj: TCreateNoteBody = {
+          title: values.title,
+          content: values.content ?? "",
+          folderId: values.folderId ?? "",
+        };
 
-      const response = await createNote(newObj);
-      if (!response.ok) {
-        return toast({ title: response.body.message, variant: "destructive" });
+        const response = await createNote(newObj);
+        console.log(`response`, response);
+        if (!response.ok) {
+          return toast({
+            title: response.body.message,
+            variant: "destructive",
+          });
+        }
+
+        router.refresh();
+        return toast({ title: "Nota criada com sucesso", variant: "success" });
       }
 
-      router.refresh();
-      return toast({ title: "Nota criada com sucesso", variant: "success" });
-    } else {
-      const newObj: TUpdateNoteBody = {
-        title: values.title,
-        content: values.content,
-        folderId: values.folderId,
-      };
+      if (type === "update") {
+        console.log("update");
+        const newObj: TUpdateNoteBody = {
+          title: values.title,
+          content: values.content,
+          folderId: values.folderId,
+        };
 
-      if (!noteId) {
-        return toast({ title: "Note ID is missing", variant: "destructive" });
+        if (!noteId) {
+          return toast({
+            title: "Nota não encontrada",
+            variant: "destructive",
+          });
+        }
+
+        const response = await updateNote(noteId, newObj);
+        if (!response.ok) {
+          return toast({
+            title: response.body.message,
+            variant: "destructive",
+          });
+        }
+
+        router.refresh();
+        return toast({
+          title: "Nota atualizada com sucesso",
+          variant: "success",
+        });
       }
-
-      const response = await updateNote(noteId, newObj);
-      if (!response.ok) {
-        return toast({ title: response.body.message, variant: "destructive" });
-      }
-
-      router.refresh();
+    } catch (err) {
+      console.log(err);
+      const _type = type === "create" ? "criar" : "atualizar";
       return toast({
-        title: "Nota atualizada com sucesso",
-        variant: "success",
+        title: `Falha ao ${_type} nota`,
+        variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -92,7 +118,6 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
         content?: string | undefined;
         folderId?: string | undefined;
       },
-      any,
       undefined
     >,
     folderId: string,
@@ -100,5 +125,5 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
     form.setValue("folderId", folderId);
   };
 
-  return { form, onSubmit, setFolderIdValue };
+  return { form, onSubmit, setFolderIdValue, isLoading };
 };

@@ -14,7 +14,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { formLoginSchema, TFormLoginSchema } from "./schemas";
@@ -22,6 +24,7 @@ import { formLoginSchema, TFormLoginSchema } from "./schemas";
 export function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<TFormLoginSchema>({
     resolver: zodResolver(formLoginSchema),
@@ -32,21 +35,28 @@ export function LoginForm() {
   });
 
   async function onSubmit(values: TFormLoginSchema) {
-    const { email, password } = values;
+    try {
+      setIsLoading(true);
+      const { email, password } = values;
 
-    const newObj: TLoginUserBody = {
-      email,
-      password,
-    };
+      const newObj: TLoginUserBody = {
+        email,
+        password,
+      };
 
-    const response = await login({ data: newObj });
+      const response = await login({ data: newObj });
 
-    if (!response.ok) {
-      return toast({ title: response.body.message, variant: "destructive" });
+      if (!response.ok) {
+        return toast({ title: response.body.message, variant: "destructive" });
+      }
+
+      router.push("/dashboard");
+      return toast({ title: "Login efetuado com sucesso", variant: "success" });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
     }
-
-    router.push("/dashboard");
-    return toast({ title: "Login efetuado com sucesso", variant: "success" });
   }
 
   return (
@@ -81,7 +91,7 @@ export function LoginForm() {
         />
 
         <Button className={`w-full`} type="submit">
-          Log in
+          {isLoading ? <Loader className={`animate-spin`} /> : "Entrar"}
         </Button>
       </form>
     </Form>

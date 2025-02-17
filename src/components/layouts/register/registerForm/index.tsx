@@ -14,7 +14,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { formRegisterSchema, TFormRegisterSchema } from "./schemas";
@@ -22,6 +24,7 @@ import { formRegisterSchema, TFormRegisterSchema } from "./schemas";
 export function RegisterForm() {
   const { toast } = useToast();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<TFormRegisterSchema>({
     resolver: zodResolver(formRegisterSchema),
@@ -32,22 +35,29 @@ export function RegisterForm() {
   });
 
   async function onSubmit(values: TFormRegisterSchema) {
-    const { email, password, name } = values;
+    setIsLoading(true);
+    try {
+      const { email, password, name } = values;
 
-    const newObj: TCreateUserBody = {
-      name,
-      email,
-      password,
-    };
+      const newObj: TCreateUserBody = {
+        name,
+        email,
+        password,
+      };
 
-    const response = await registerUser(newObj);
+      const response = await registerUser(newObj);
 
-    if (!response.ok) {
-      return toast({ title: response.body.message, variant: "destructive" });
+      if (!response.ok) {
+        return toast({ title: response.body.message, variant: "destructive" });
+      }
+
+      router.push("/login");
+      return toast({ title: "Conta criada com sucesso", variant: "success" });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
     }
-
-    router.push("/login");
-    return toast({ title: "Conta criada com sucesso", variant: "success" });
   }
 
   return (
@@ -96,7 +106,7 @@ export function RegisterForm() {
         />
 
         <Button className={`w-full`} type="submit">
-          Criar conta
+          {isLoading ? <Loader className={`animate-spin`} /> : "Registrar"}
         </Button>
       </form>
     </Form>

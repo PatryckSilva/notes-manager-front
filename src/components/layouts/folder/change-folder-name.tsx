@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useCreateOrUpdateFolder } from "@/hooks/use-create-or-update-folder";
 import { useToast } from "@/hooks/use-toast";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export const ChangeFolderName = ({ currentFolder }: { currentFolder: IFolder }) => {
@@ -33,7 +34,7 @@ export const ChangeFolderName = ({ currentFolder }: { currentFolder: IFolder }) 
   const { toast } = useToast();
   const router = useRouter();
 
-  const { form, onSubmit } = useCreateOrUpdateFolder({
+  const { form, onSubmit, isLoading } = useCreateOrUpdateFolder({
     type: "update",
     folderId: currentFolder.id,
     defaultValues: {
@@ -81,11 +82,15 @@ export const ChangeFolderName = ({ currentFolder }: { currentFolder: IFolder }) 
             )}
           />
 
-          <Button type="submit">Salvar novo nome</Button>
+          <Button className={`w-32`} type="submit">
+            {isLoading ? <Loader className={`animate-spin`} /> : "Salvar"}
+          </Button>
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant={"destructive"}>Deletar Pasta</Button>
+              <Button className={`w-32`} variant={"destructive"}>
+                Deletar Pasta
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
