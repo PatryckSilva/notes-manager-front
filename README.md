@@ -7,7 +7,7 @@
 1. Necessita abrir um terminal, e instalar as dependências com:
    `yarn`
 
-2. Após rodar o docker, para rodar o ambiente de desenvolvimento, rodamos o comando:
+2. Para rodar o ambiente de desenvolvimento, rodamos o comando:
    `yarn dev`
 
 3. Caso queira rodar em produção precisamos buildar o o projeto:
