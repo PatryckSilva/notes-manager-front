@@ -59,7 +59,7 @@ const ProfileModal = ({ userInfos }: { userInfos: { name: string; email: string 
             </Button>
           </DialogClose>
 
-          <Button onClick={logout} type="submit" variant={"destructive"}>
+          <Button onClick={() => logout()} type="submit" variant={"destructive"}>
             Logout
           </Button>
         </DialogFooter>
