@@ -35,7 +35,7 @@ export async function AppSidebar() {
   const allNotes = Array.isArray(allUserNotes.body) ? allUserNotes.body : [];
 
   const userFolders = (await getUsersFolders()).body || [];
-  const customFolders = userFolders.filter(item => item.name !== "Todas as Notas") || [];
+  const customFolders = userFolders || [];
 
   return (
     <Sidebar className={`!bg-white`}>
