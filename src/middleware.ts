@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { MiddlewareConfig, NextRequest, NextResponse } from "next/server";
 
-import { IUserPublicInfo } from "./@types/actions/user";
+import { getUserByEmail } from "./actions/User";
 
 const publicRoutes = [
   { path: "/login", whenAuthenticated: "redirect" },
@@ -15,11 +15,6 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const cookieStore = await cookies();
   const tokenCookie = cookieStore.get("auth_token");
-  const userInfosCookie = cookieStore.get("user_infos");
-  const userInfos: IUserPublicInfo | undefined = userInfosCookie?.value
-    ? JSON.parse(userInfosCookie.value)
-    : undefined;
-
   const authToken = tokenCookie?.value;
 
   const requestHeaders = new Headers(request.headers);
@@ -41,9 +36,10 @@ export async function middleware(request: NextRequest) {
         },
       });
 
-    if (authToken && publicRoute.whenAuthenticated === "redirect") {
+    const verifyResponse = await getUserByEmail();
+    if (verifyResponse.ok && publicRoute.whenAuthenticated === "redirect") {
       const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = "/";
+      redirectUrl.pathname = REDIRECT_WHEN_DEFAULT_PATH;
       return NextResponse.redirect(redirectUrl);
     }
 
@@ -60,7 +56,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (!userInfos) {
+  const verifyResponse = await getUserByEmail();
+  if (!verifyResponse.ok) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE;
     return NextResponse.redirect(redirectUrl);
