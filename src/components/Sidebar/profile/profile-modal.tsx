@@ -1,7 +1,8 @@
 "use client";
 import { logout } from "@/actions/User";
 import { truncateText } from "@/utils/truncateText";
-import { memo } from "react";
+import { Loader } from "lucide-react";
+import { memo, useState } from "react";
 
 import { Button } from "../../ui/button";
 import {
@@ -16,10 +17,21 @@ import {
 import { Label } from "../../ui/label";
 
 const ProfileModal = ({ userInfos }: { userInfos: { name: string; email: string } | string }) => {
+  const [isLoading, setisLoading] = useState(false);
   if (typeof userInfos === "string") {
     return null;
   }
 
+  const logoutUser = async () => {
+    setisLoading(true);
+    try {
+      await logout();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setisLoading(false);
+    }
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -59,8 +71,8 @@ const ProfileModal = ({ userInfos }: { userInfos: { name: string; email: string 
             </Button>
           </DialogClose>
 
-          <Button onClick={() => logout()} type="submit" variant={"destructive"}>
-            Logout
+          <Button onClick={logoutUser} type="submit" variant={"destructive"}>
+            {isLoading ? <Loader className={`animate-spin`} /> : "Logout"}
           </Button>
         </DialogFooter>
       </DialogContent>
