@@ -64,6 +64,7 @@ export const login = async ({ data }: { data: TLoginUserBody }) => {
     expires: new Date(Date.now() + 3600000),
   });
 
+  revalidatePath("/login");
   return {
     status: response.statusCode,
     body: response.body,
