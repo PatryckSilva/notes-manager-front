@@ -86,7 +86,7 @@ export const NotePageFields = ({
     return toast({ title: "Erro ao deletar nota", variant: "destructive" });
   };
   return (
-    <section className={`${open ? "w-3/4" : ""} mt-5 flex flex-col`}>
+    <section className={`${open ? "md:w-3/4" : ""} mt-5 flex flex-col`}>
       <Form {...form}>
         <form className="w-full space-y-4 py-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField

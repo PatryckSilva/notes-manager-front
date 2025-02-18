@@ -3,7 +3,6 @@ import { getNoteById } from "@/actions/Notes";
 import { NotePageFields } from "@/components/layouts/note/page-fields";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-
 export default async function Note() {
   const allFolders =
     (await getUsersFolders()).body?.filter(item => item.name !== "Todas as Notas") || [];

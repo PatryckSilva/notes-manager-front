@@ -60,7 +60,7 @@ export const ChangeFolderName = ({ currentFolder }: { currentFolder: IFolder }) 
   };
 
   return (
-    <section className={`${open ? "w-3/4" : ""} mt-5 flex flex-col`}>
+    <section className={`${open ? "md:w-3/4" : ""} mt-5 flex flex-col`}>
       <Form {...form}>
         <form
           className="flex w-full flex-wrap items-end gap-2.5 py-4"
