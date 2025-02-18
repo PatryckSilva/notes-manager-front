@@ -51,12 +51,12 @@ export function LoginForm() {
         return toast({ title: response.body.message, variant: "destructive" });
       }
 
-      router.push("/dashboard");
       return toast({ title: "Login efetuado com sucesso", variant: "success" });
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false);
+      router.push("/dashboard");
     }
   }
 

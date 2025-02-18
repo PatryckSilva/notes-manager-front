@@ -64,9 +64,13 @@ export const login = async ({ data }: { data: TLoginUserBody }) => {
     expires: new Date(Date.now() + 3600000),
   });
 
-  if (response.ok && userInfosResponse.ok) {
-    redirect("/dashboard");
-  }
+  const ok = response.ok && userInfosResponse.ok;
+
+  return {
+    status: response.statusCode,
+    body: response.body,
+    ok,
+  };
 };
 
 export const getUserByEmail = async () => {
