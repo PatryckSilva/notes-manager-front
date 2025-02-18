@@ -32,6 +32,7 @@
 - [✅] Http Client Adapter para controlar requisições;
 - [✅] Skeleton Loadin para carregamento de notas, e pastas;
 - [✅] Utilização de Cookies para autenticação;
+- [✅] Responsividade para mobile;
 
 ### Tecnologias Utilizadas
 
