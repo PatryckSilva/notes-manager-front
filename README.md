@@ -43,16 +43,17 @@
 - React Hook Form;
 - Zod;
 
-
 ### Observações:
+
 Ao Clicar nos nomes sublinhados, você será redirecionado para a página de edição da nota ou pasta.
+
 ![alt text](image-1.png)
 
 em relação ao print:
 1 - abre a page com todas as notas;
 2 - abre page específica de uma nota;
-3 - abre pageina específica de uma pasta.
+3 - abre page específica de uma pasta.
 
-Além disso na sidebar, podemos fecha os menus (Todas as notas, e as pastas). 
+Além disso na sidebar, podemos fecha os menus ("Todas as notas", e as pastas).
 
 Temos os icones de criação de pasta e nota que abrem seus respectivos modais de criação, e ao clicar com botão direito do mouse em cima do "Todas as Notas" ele abre o modal de criação de nota
