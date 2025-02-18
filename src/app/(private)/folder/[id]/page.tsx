@@ -27,7 +27,7 @@ export default async function Folder() {
 
       <span className={`mt-2.5 font-bold text-muted-foreground lg:mt-5`}>Notas desta pasta:</span>
       {currentFolder && (
-        <section className={`mt-5 flex w-full flex-wrap justify-center gap-10`}>
+        <section className={`mt-5 flex w-full flex-wrap justify-center gap-10 md:justify-start`}>
           {currentFolder.notes?.map(note => (
             <Link
               className={`w-44 transition-all active:scale-95 active:shadow-none`}

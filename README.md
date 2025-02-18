@@ -1,37 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Variáveis de ambiente:
 
-## Getting Started
+- API_URL="http://localhost:5000/api/v1"
 
-First, run the development server:
+## Para rodar o Projeto:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Necessita abrir um terminal, e instalar as dependências com:
+   `yarn`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Após rodar o docker, para rodar o ambiente de desenvolvimento, rodamos o comando:
+   `yarn dev`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Caso queira rodar em produção precisamos buildar o o projeto:
+   `yarn build`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Para rodar o ambiente de produção, rodamos o comando:
+   `yarn start`
 
-## Learn More
+## Funcionalidades:
 
-To learn more about Next.js, take a look at the following resources:
+- [✅] Arquivo middleware para lidar com autenticação/redirecionamento do usuário;
+- [✅] Página de registro e login;
+- [✅] Página de listagem de todas as notas; (/dashboard)
+- [✅] Modal de criação de uma nota;
+- [✅] Página de edição e exclusão de uma nota; (/note/:id)
+- [✅] Modal de criação de uma pasta;
+- [✅] Página de atualização e exclusão de uma pasta; (/folder/:id)
+- [✅] Todas as pastas e notas são mostradas na sidebar;
+- [✅] Modal de perfil, com logout;
+- [✅] Utilização de React server components e Action Servers;
+- [✅] Utilização de cache do fetch(), e revalidação do cache por tags;
+- [✅] Http Client Adapter para controlar requisições;
+- [✅] Skeleton Loadin para carregamento de notas, e pastas;
+- [✅] Utilização de Cookies para autenticação;
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Tecnologias Utilizadas
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- NextJs;
+- Typescript;
+- React;
+- TailwindCSS;
+- Shadcn/ui;
+- React Hook Form;
+- Zod;
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Observações:
+Ao Clicar nos nomes sublinhados, você será redirecionado para a página de edição da nota ou pasta.
+![alt text](image-1.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# notes-manager-front
+em relação ao print:
+1 - abre a page com todas as notas;
+2 - abre page específica de uma nota;
+3 - abre pageina específica de uma pasta.
+
+Além disso na sidebar, podemos fecha os menus (Todas as notas, e as pastas). 
+
+Temos os icones de criação de pasta e nota que abrem seus respectivos modais de criação, e ao clicar com botão direito do mouse em cima do "Todas as Notas" ele abre o modal de criação de nota

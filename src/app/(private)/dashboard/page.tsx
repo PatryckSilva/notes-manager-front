@@ -10,7 +10,7 @@ export default async function Home() {
     <main className="flex flex-col px-20 pt-10">
       {allNotes.length > 0 && <h1 className={`text-2xl font-bold`}>Todas as notas:</h1>}
 
-      <section className={`mt-5 flex w-full flex-wrap justify-center gap-10`}>
+      <section className={`mt-5 flex w-full flex-wrap justify-center gap-10 md:justify-start`}>
         {allNotes.map(note => (
           <Link
             className={`w-44 transition-all active:scale-95 active:shadow-none`}
