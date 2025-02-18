@@ -64,12 +64,9 @@ export const login = async ({ data }: { data: TLoginUserBody }) => {
     expires: new Date(Date.now() + 3600000),
   });
 
-  revalidatePath("/login");
-  return {
-    status: response.statusCode,
-    body: response.body,
-    ok: response.ok,
-  };
+  if (response.ok && userInfosResponse.ok) {
+    redirect("/dashboard");
+  }
 };
 
 export const getUserByEmail = async () => {
