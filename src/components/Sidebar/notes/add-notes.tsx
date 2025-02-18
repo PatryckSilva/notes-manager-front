@@ -46,7 +46,8 @@ export const AddNotes = ({
     defaultValues: { title: "", content: "", folderId: "" },
   });
 
-  const submitFormAndCloseSheet = () => {
+  const submitFormAndCloseSheet = (e: React.MouseEvent) => {
+    e.preventDefault();
     form.handleSubmit(onSubmit)();
     setSheetIsOpen(false);
   };
@@ -106,7 +107,7 @@ export const AddNotes = ({
         </SheetHeader>
 
         <Form {...form}>
-          <form className="w-full space-y-4 py-4" onSubmit={submitFormAndCloseSheet}>
+          <form className="w-full space-y-4 py-4">
             <FormField
               control={form.control}
               name="title"
@@ -191,7 +192,7 @@ export const AddNotes = ({
                 </FormItem>
               )}
             />
-            <Button className={`w-full`} type="submit">
+            <Button className={`w-full`} onClick={submitFormAndCloseSheet} type="submit">
               Criar nota
             </Button>
           </form>

@@ -22,7 +22,6 @@ export async function createFolder(data: ICreateFolderBody) {
   });
 
   revalidateTag("getUsersFolders");
-  revalidateTag("allUserNotes");
   return response;
 }
 

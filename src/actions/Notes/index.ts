@@ -101,5 +101,7 @@ export async function updateNote(id: string, data: TUpdateNoteBody) {
     headers: requestHeaders,
   });
 
+  revalidateTag("getUsersFolders");
+  revalidateTag("allUserNotes");
   return response;
 }

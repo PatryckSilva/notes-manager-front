@@ -36,7 +36,8 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
   const { type, defaultValues } = params;
   const noteId = type === "update" ? params.noteId : undefined;
   const router = useRouter();
-  const formSchema = type === "create" ? formCreateNoteSchema : formUpdateNoteSchema;
+  const formSchema =
+    type === "create" ? formCreateNoteSchema : formUpdateNoteSchema;
   type TFormData = z.infer<typeof formSchema>;
 
   const { toast } = useToast();
@@ -63,8 +64,6 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
             variant: "destructive",
           });
         }
-
-        router.refresh();
         return toast({ title: "Nota criada com sucesso", variant: "success" });
       }
 
@@ -90,7 +89,6 @@ export const useCreateOrUpdateNote = (params: UseNoteParams) => {
           });
         }
 
-        router.refresh();
         return toast({
           title: "Nota atualizada com sucesso",
           variant: "success",
