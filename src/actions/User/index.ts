@@ -50,18 +50,17 @@ export const login = async ({ data }: { data: TLoginUserBody }) => {
 
   cookieStore.set("user_infos", JSON.stringify(userInfos), {
     httpOnly: false,
-    maxAge: 3600000,
-    sameSite: "none",
+    maxAge: 864000000, //  10 dias em milisegundos
     secure: true,
-    expires: new Date(Date.now() + 3600000),
+    expires: new Date(Date.now() + 864000000), //  10 dias em milisegundos
   });
 
   cookieStore.set("auth_token", response.body.token, {
     httpOnly: true,
-    maxAge: 3600000,
+    maxAge: 864000,
     sameSite: "none",
     secure: true,
-    expires: new Date(Date.now() + 3600000),
+    expires: new Date(Date.now() + 864000),
   });
 
   const ok = response.ok && userInfosResponse.ok;
