@@ -30,7 +30,7 @@
 - [✅] Utilização de React server components e Action Servers;
 - [✅] Utilização de cache do fetch(), e revalidação do cache por tags;
 - [✅] Http Client Adapter para controlar requisições;
-- [✅] Skeleton Loadin para carregamento de notas, e pastas;
+- [✅] Skeleton Loading para carregamento de notas e pastas;
 - [✅] Utilização de Cookies para autenticação;
 - [✅] Responsividade para mobile;
 
@@ -43,6 +43,9 @@
 - Shadcn/ui;
 - React Hook Form;
 - Zod;
+- Server Actions;
+- Ferramentas de cache do next com fetch();
+- React Server Components
 
 ### Observações:
 
@@ -55,6 +58,6 @@ em relação ao print:
 2 - abre page específica de uma nota;
 3 - abre page específica de uma pasta.
 
-Além disso na sidebar, podemos fecha os menus ("Todas as notas", e as pastas).
+Além disso na sidebar, podemos abrir e fechar os menus ("Todas as notas", e as pastas).
 
 Temos os icones de criação de pasta e nota que abrem seus respectivos modais de criação, e ao clicar com botão direito do mouse em cima do "Todas as Notas" ele abre o modal de criação de nota
