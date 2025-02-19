@@ -26,7 +26,8 @@ export const AddFolder = () => {
 
   const { form, onSubmit } = useCreateOrUpdateFolder({ type: "create" });
 
-  const submitFormAndCloseSheet = () => {
+  const submitFormAndCloseSheet = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     form.handleSubmit(onSubmit)();
     setSheetIsOpen(false);
   };
@@ -41,11 +42,16 @@ export const AddFolder = () => {
       <SheetContent side={"left"}>
         <SheetHeader>
           <SheetTitle>Crie uma nova Pasta</SheetTitle>
-          <SheetDescription>Preencha o campo abaixo para criar uma nova pasta.</SheetDescription>
+          <SheetDescription>
+            Preencha o campo abaixo para criar uma nova pasta.
+          </SheetDescription>
         </SheetHeader>
 
         <Form {...form}>
-          <form className="w-full space-y-4 py-4" onSubmit={submitFormAndCloseSheet}>
+          <form
+            className="w-full space-y-4 py-4"
+            onSubmit={submitFormAndCloseSheet}
+          >
             <FormField
               control={form.control}
               name="name"
