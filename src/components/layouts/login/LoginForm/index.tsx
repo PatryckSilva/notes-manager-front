@@ -55,7 +55,6 @@ export function LoginForm() {
     } catch (err) {
       console.error(err);
     } finally {
-      setIsLoading(false);
       router.push("/dashboard");
     }
   }

@@ -28,11 +28,13 @@ import { useCreateOrUpdateFolder } from "@/hooks/use-create-or-update-folder";
 import { useToast } from "@/hooks/use-toast";
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 export const ChangeFolderName = ({ currentFolder }: { currentFolder: IFolder }) => {
   const { open } = useSidebar();
   const { toast } = useToast();
   const router = useRouter();
+  const [isLoadingDelete, setIsLoadingDelete] = React.useState(false);
 
   const { form, onSubmit, isLoading } = useCreateOrUpdateFolder({
     type: "update",
@@ -47,6 +49,7 @@ export const ChangeFolderName = ({ currentFolder }: { currentFolder: IFolder }) 
   };
 
   const handleDeleteFolder = async () => {
+    setIsLoadingDelete(true);
     if (!currentFolder.id)
       return toast({ title: "Erro ao deletar pasta!", variant: "destructive" });
 
@@ -89,7 +92,7 @@ export const ChangeFolderName = ({ currentFolder }: { currentFolder: IFolder }) 
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button className={`w-32`} variant={"destructive"}>
-                Deletar Pasta
+                {isLoadingDelete ? <Loader className={`animate-spin`} /> : "Deletar"}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>

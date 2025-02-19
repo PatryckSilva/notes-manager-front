@@ -51,6 +51,7 @@ export const NotePageFields = ({
   const router = useRouter();
   const { toast } = useToast();
   const [openPopover, setOpenPopover] = React.useState(false);
+  const [isLoadingDelete, setIsLoadingDelete] = React.useState(false);
 
   useEffect(() => {
     if (!noteById) {
@@ -75,6 +76,7 @@ export const NotePageFields = ({
   const currentFolder = allFolders.find(folder => folder.id === noteById?.folderId);
 
   const handleDeleteNote = async () => {
+    setIsLoadingDelete(true);
     if (!noteById) return toast({ title: "Nota não encontrada", variant: "destructive" });
 
     const response = await deleteNote(noteById?.id || "");
@@ -192,7 +194,7 @@ export const NotePageFields = ({
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button className={`w-28`} variant={"destructive"}>
-                Deletar Nota
+                {isLoadingDelete ? <Loader className={`animate-spin`} /> : "Deletar Nota"}
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
