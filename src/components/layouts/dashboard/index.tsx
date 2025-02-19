@@ -9,7 +9,7 @@ export const NoNotesFoundButton = () => {
       <p className={`text-lg`}>Nenhuma nota encontrada.</p>
       <span>
         Crie uma nova nota{" "}
-        <strong className={`text-primary underline`} onClick={toggleSidebar}>
+        <strong className={`cursor-pointer text-primary underline`} onClick={toggleSidebar}>
           aqui!
         </strong>
       </span>
