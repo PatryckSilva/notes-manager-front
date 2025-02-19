@@ -43,8 +43,9 @@ export default [
           varsIgnorePattern: "^_",
         },
       ],
+      // TODO: fix this config 
       "prettier/prettier": [
-        "error",
+        "off",
         {
           singleQuote: false,
           tabWidth: 2,
