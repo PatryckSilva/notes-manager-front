@@ -20,7 +20,7 @@
 
 - [✅] Arquivo middleware para lidar com autenticação/redirecionamento do usuário;
 - [✅] Página de registro e login;
-- [✅] Página de listagem de todas as notas; (/dashboard)
+- [✅] Página de listagem de todas as notas;
 - [✅] Modal de criação de uma nota;
 - [✅] Página de edição e exclusão de uma nota; (/note/:id)
 - [✅] Modal de criação de uma pasta;
@@ -64,4 +64,4 @@ Temos os icones de criação de pasta e nota que abrem seus respectivos modais d
 
 Pode ser que o primeiro acesso ao site deployado seja lento, porque o backend deployado no render fica "dormindo" enquanto não há uso, por estar utilizando o plano free.
 
-link do deploy: https://notes-manager-front-eight.vercel.app/dashboard
+link do deploy: https://notes-manager-front-eight.vercel.app/

@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { MiddlewareConfig, NextRequest, NextResponse } from "next/server";
 
-import { getUserByEmail } from "./actions/User";
+import { decodeJWT } from "./infra/token/decode";
 
 const publicRoutes = [
   { path: "/login", whenAuthenticated: "redirect" },
@@ -13,9 +13,12 @@ const REDIRECT_WHEN_DEFAULT_PATH = "/dashboard";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
   const cookieStore = await cookies();
   const tokenCookie = cookieStore.get("auth_token");
   const authToken = tokenCookie?.value;
+
+  const isTokenExpired = authToken ? decodeJWT(authToken) : true;
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-url", request.url);
@@ -26,7 +29,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  const publicRoute = publicRoutes.find(route => route.path === pathname);
+  const publicRoute = publicRoutes.find((route) => route.path === pathname);
 
   if (publicRoute) {
     if (!authToken)
@@ -36,8 +39,7 @@ export async function middleware(request: NextRequest) {
         },
       });
 
-    const verifyResponse = await getUserByEmail();
-    if (verifyResponse.ok && publicRoute.whenAuthenticated === "redirect") {
+    if (!isTokenExpired && publicRoute.whenAuthenticated === "redirect") {
       const redirectUrl = request.nextUrl.clone();
       redirectUrl.pathname = REDIRECT_WHEN_DEFAULT_PATH;
       return NextResponse.redirect(redirectUrl);
@@ -56,8 +58,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  const verifyResponse = await getUserByEmail();
-  if (!verifyResponse.ok) {
+  if (isTokenExpired) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE;
     return NextResponse.redirect(redirectUrl);
