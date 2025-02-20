@@ -61,3 +61,7 @@ em relação ao print:
 Além disso na sidebar, podemos abrir e fechar os menus ("Todas as notas", e as pastas).
 
 Temos os icones de criação de pasta e nota que abrem seus respectivos modais de criação, e ao clicar com botão direito do mouse em cima do "Todas as Notas" ele abre o modal de criação de nota
+
+Pode ser que o primeiro acesso ao site deployado seja lento, porque o backend deployado no render fica "dormindo" enquanto não há uso, por estar utilizando o plano free.
+
+link do deploy: https://notes-manager-front-eight.vercel.app/dashboard
