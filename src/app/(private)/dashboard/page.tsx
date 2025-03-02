@@ -8,10 +8,14 @@ export default async function Home() {
   const allNotes = Array.isArray(allUserNotes.body) ? allUserNotes.body : [];
   return (
     <main className="flex flex-col px-20 pt-10">
-      {allNotes.length > 0 && <h1 className={`text-2xl font-bold`}>Todas as notas:</h1>}
+      {allNotes?.length > 0 && (
+        <h1 className={`text-2xl font-bold`}>Todas as notas:</h1>
+      )}
 
-      <section className={`mt-5 flex w-full flex-wrap justify-center gap-10 md:justify-start`}>
-        {allNotes.map(note => (
+      <section
+        className={`mt-5 flex w-full flex-wrap justify-center gap-10 md:justify-start`}
+      >
+        {allNotes.map((note) => (
           <Link
             className={`w-44 transition-all active:scale-95 active:shadow-none`}
             href={`/note/${note.id}`}
@@ -19,7 +23,9 @@ export default async function Home() {
           >
             <Card>
               <CardHeader>
-                <CardTitle className={`truncate text-lg font-bold`}>{note.title}</CardTitle>
+                <CardTitle className={`truncate text-lg font-bold`}>
+                  {note.title}
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className={`truncate text-sm`}>{note.content}</p>
@@ -28,7 +34,7 @@ export default async function Home() {
           </Link>
         ))}
 
-        {allNotes.length === 0 && <NoNotesFoundButton />}
+        {allNotes?.length === 0 && <NoNotesFoundButton />}
       </section>
     </main>
   );
